@@ -1,11 +1,19 @@
+
 import { useState } from "react";
-import { ShoppingCart, Heart, Search, Menu, X, User } from "lucide-react";
+import { ShoppingCart, Heart, Search, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { SearchDialog } from "@/components/SearchDialog";
 import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerClose,
+} from "@/components/ui/drawer";
+import { Separator } from "@/components/ui/separator";
 
 interface HeaderProps {
   cartItemsCount: number;
@@ -13,7 +21,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { wishlist } = useWishlist();
 
@@ -93,86 +100,66 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               </Link>
 
               {/* Mobile menu button */}
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+              <div className="md:hidden">
+                <Drawer>
+                  <DrawerTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Menu className="h-5 w-5" />
+                    </Button>
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <nav className="p-4 pt-8">
+                      <div className="flex flex-col space-y-2">
+                        <DrawerClose asChild>
+                          <Link to="/catalog" className="text-lg p-3 rounded-md hover:bg-muted font-medium">Каталог</Link>
+                        </DrawerClose>
+                        <DrawerClose asChild>
+                          <Link to="/collections" className="text-lg p-3 rounded-md hover:bg-muted">Коллекции</Link>
+                        </DrawerClose>
+                        <DrawerClose asChild>
+                          <Link to="/about" className="text-lg p-3 rounded-md hover:bg-muted">О нас</Link>
+                        </DrawerClose>
+                        <DrawerClose asChild>
+                          <Link to="/contact" className="text-lg p-3 rounded-md hover:bg-muted">Контакты</Link>
+                        </DrawerClose>
+
+                        <Separator className="!my-4" />
+                        
+                        <DrawerClose asChild>
+                          <Link to="/wishlist" className="flex items-center justify-between text-lg p-3 rounded-md hover:bg-muted">
+                            <span>Избранное</span>
+                            {wishlist.length > 0 && <Badge variant="secondary">{wishlist.length}</Badge>}
+                          </Link>
+                        </DrawerClose>
+                        <DrawerClose asChild>
+                          <Link to="/profile" className="text-lg p-3 rounded-md hover:bg-muted">Личный кабинет</Link>
+                        </DrawerClose>
+                        <DrawerClose asChild>
+                          <Link to="/cart" className="flex items-center justify-between text-lg p-3 rounded-md hover:bg-muted">
+                            <span>Корзина</span>
+                            {cartItemsCount > 0 && <Badge variant="secondary">{cartItemsCount}</Badge>}
+                          </Link>
+                        </DrawerClose>
+                        
+                        <Separator className="!my-4" />
+
+                        <DrawerClose asChild>
+                            <Button 
+                                variant="outline" 
+                                className="w-full justify-start text-lg p-3 h-auto font-normal"
+                                onClick={() => setIsSearchOpen(true)}
+                            >
+                                <Search className="h-5 w-5 mr-3" />
+                                Поиск
+                            </Button>
+                        </DrawerClose>
+                      </div>
+                    </nav>
+                  </DrawerContent>
+                </Drawer>
+              </div>
             </div>
           </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <nav className="md:hidden mt-4 pb-4 border-t border-warm-200 pt-4">
-              <div className="flex flex-col space-y-4">
-                <Link 
-                  to="/catalog" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Каталог
-                </Link>
-                <Link 
-                  to="/collections" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Коллекции
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  О нас
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Контакты
-                </Link>
-                <Link 
-                  to="/wishlist" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Избранное ({wishlist.length})
-                </Link>
-                <Link 
-                  to="/profile" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Личный кабинет
-                </Link>
-                <Link 
-                  to="/cart" 
-                  className="text-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Корзина ({cartItemsCount})
-                </Link>
-                <div className="pt-4 border-t border-warm-200">
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => {
-                      setIsSearchOpen(true);
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <Search className="h-4 w-4 mr-2" />
-                    Поиск
-                  </Button>
-                </div>
-              </div>
-            </nav>
-          )}
         </div>
       </header>
 
