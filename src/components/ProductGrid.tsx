@@ -1,4 +1,3 @@
-
 import { ShoppingCart, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -50,11 +49,11 @@ export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
                     )}
                   </div>
 
-                  {/* Wishlist button */}
+                  {/* Wishlist button with higher z-index */}
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute top-3 right-3 bg-white/90 hover:bg-white transition-colors"
+                    className="absolute top-3 right-3 bg-white/90 hover:bg-white transition-colors z-20"
                     onClick={() => toggleWishlist(product.id)}
                   >
                     <Heart 
@@ -66,8 +65,8 @@ export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
                     />
                   </Button>
 
-                  {/* Quick add to cart on hover */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  {/* Quick add to cart on hover with lower z-index */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
                     <Button
                       onClick={() => onAddToCart(product.id)}
                       className="bg-white text-primary hover:bg-warm-100 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
