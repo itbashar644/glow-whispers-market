@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -32,7 +33,7 @@ type Order = {
 
 const Profile = () => {
   const { toast } = useToast();
-  const { user, profile, signOut, loading, setProfile } = useAuth();
+  const { user, profile, loading, setProfile } = useAuth();
   const { totalItems } = useCart();
   const navigate = useNavigate();
 
@@ -45,6 +46,13 @@ const Profile = () => {
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
 
   useEffect(() => {
     if (user && profile) {
@@ -178,8 +186,24 @@ const Profile = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
+    try {
+      // Clear localStorage
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+          localStorage.removeItem(key);
+        }
+      });
+      
+      // Sign out from Supabase
+      await supabase.auth.signOut({ scope: 'global' });
+      
+      // Navigate to home page
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error signing out:', error);
+      // Force navigation even if signOut fails
+      window.location.href = '/';
+    }
   };
 
   if (loading) {
@@ -190,6 +214,11 @@ const Profile = () => {
         <Footer />
       </div>
     );
+  }
+
+  // If not authenticated, don't render profile content
+  if (!user) {
+    return null;
   }
 
   return (
