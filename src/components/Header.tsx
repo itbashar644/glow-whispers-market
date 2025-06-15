@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -107,6 +108,19 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                     <nav className="p-4 pt-8">
                       <div className="flex flex-col space-y-2">
                         <DrawerClose asChild>
+                            <Button 
+                                variant="outline" 
+                                className="w-full justify-start text-lg p-3 h-auto font-normal"
+                                onClick={() => setIsSearchOpen(true)}
+                            >
+                                <Search className="h-5 w-5 mr-3" />
+                                Поиск
+                            </Button>
+                        </DrawerClose>
+                        
+                        <Separator className="!my-4" />
+
+                        <DrawerClose asChild>
                           <Link to="/catalog" className="text-lg p-3 rounded-md hover:bg-muted font-medium">Каталог</Link>
                         </DrawerClose>
                         <DrawerClose asChild>
@@ -132,19 +146,6 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                             <span>Корзина</span>
                             {cartItemsCount > 0 && <Badge variant="secondary">{cartItemsCount}</Badge>}
                           </Link>
-                        </DrawerClose>
-                        
-                        <Separator className="!my-4" />
-
-                        <DrawerClose asChild>
-                            <Button 
-                                variant="outline" 
-                                className="w-full justify-start text-lg p-3 h-auto font-normal"
-                                onClick={() => setIsSearchOpen(true)}
-                            >
-                                <Search className="h-5 w-5 mr-3" />
-                                Поиск
-                            </Button>
                         </DrawerClose>
                       </div>
                     </nav>
