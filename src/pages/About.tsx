@@ -1,4 +1,5 @@
 
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -32,7 +33,7 @@ const About = () => {
                 Наша история
               </h2>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                Начавшись как небольшая мастерская в 2020 году, мы превратились в 
+                Начав как небольшая мастерская в Санкт-Петербурге в 2020 году, мы превратились в 
                 одного из ведущих производителей премиальных свечей ручной работы. 
                 Каждая свеча создается с любовью и вниманием к деталям.
               </p>
@@ -110,3 +111,4 @@ const About = () => {
 };
 
 export default About;
+
