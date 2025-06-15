@@ -1,4 +1,3 @@
-
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FilterSidebar } from "@/components/catalog/FilterSidebar";
@@ -114,13 +113,6 @@ const Catalog = () => {
     sortedProducts
   } = useCatalogFilters(products);
 
-  const handleAddToCart = (productId: number) => {
-    const product = products.find(p => p.id === productId);
-    if (product) {
-      addToCart(product);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-warm-gradient">
       <Header cartItemsCount={totalItems} products={products} />
@@ -157,7 +149,7 @@ const Catalog = () => {
             products={sortedProducts}
             sortBy={sortBy}
             onSortChange={setSortBy}
-            onAddToCart={handleAddToCart}
+            onAddToCart={addToCart}
             onResetFilters={resetFilters}
           />
         </div>

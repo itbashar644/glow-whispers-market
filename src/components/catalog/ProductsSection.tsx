@@ -9,7 +9,7 @@ interface ProductsSectionProps {
   products: Product[];
   sortBy: string;
   onSortChange: (value: string) => void;
-  onAddToCart: (productId: number) => void;
+  onAddToCart: (product: Product) => void;
   onResetFilters: () => void;
 }
 
