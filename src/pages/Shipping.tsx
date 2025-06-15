@@ -1,7 +1,7 @@
 
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Truck, RotateCcw, Shield, Clock } from "lucide-react";
+import { Truck, Shield, Clock } from "lucide-react";
 
 const Shipping = () => {
   return (
@@ -11,12 +11,12 @@ const Shipping = () => {
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-playfair font-bold text-primary mb-8 text-center">
-            Доставка и возврат
+            Доставка
           </h1>
           
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="mb-12">
             {/* Доставка */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <div className="bg-white rounded-lg p-6 shadow-sm border max-w-2xl mx-auto">
               <div className="flex items-center mb-4">
                 <Truck className="h-6 w-6 text-primary mr-3" />
                 <h2 className="text-xl font-semibold">Условия доставки</h2>
@@ -37,32 +37,6 @@ const Shipping = () => {
                 <div>
                   <h3 className="font-medium text-foreground mb-2">Экспресс доставка</h3>
                   <p>750 ₽ - доставка в день заказа по Москве</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Возврат */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border">
-              <div className="flex items-center mb-4">
-                <RotateCcw className="h-6 w-6 text-primary mr-3" />
-                <h2 className="text-xl font-semibold">Условия возврата</h2>
-              </div>
-              
-              <div className="space-y-4 text-muted-foreground">
-                <div>
-                  <h3 className="font-medium text-foreground mb-2">30 дней на возврат</h3>
-                  <p>Вы можете вернуть товар в течение 30 дней с момента получения</p>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-foreground mb-2">Условия возврата</h3>
-                  <p>Товар должен быть в оригинальной упаковке, неиспользованным</p>
-                  <p>Возврат денежных средств в течение 10 рабочих дней</p>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-foreground mb-2">Обмен товара</h3>
-                  <p>Бесплатный обмен в случае брака или пересорта</p>
                 </div>
               </div>
             </div>
