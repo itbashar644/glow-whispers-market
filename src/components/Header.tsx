@@ -55,18 +55,18 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center md:space-x-4 space-x-2">
+            <div className="flex items-center md:space-x-2 space-x-1">
               <Button 
-                variant="ghost" 
+                variant="outline" 
                 size="icon" 
-                className="hidden md:flex"
+                className="hidden md:flex rounded-full"
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search className="h-6 w-6" />
               </Button>
               
               <Link to="/wishlist">
-                <Button variant="ghost" size="icon" className="relative">
+                <Button variant="outline" size="icon" className="relative rounded-full">
                   <Heart className="h-6 w-6" />
                   {wishlist.length > 0 && (
                     <Badge 
@@ -80,7 +80,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               </Link>
               
               <Link to="/cart">
-                <Button variant="ghost" size="icon" className="relative">
+                <Button variant="outline" size="icon" className="relative rounded-full">
                   <ShoppingCart className="h-6 w-6" />
                   {cartItemsCount > 0 && (
                     <Badge 
@@ -94,7 +94,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               </Link>
 
               <Link to="/profile">
-                <Button variant="ghost" size="icon">
+                <Button variant="outline" size="icon" className="rounded-full">
                   <User className="h-6 w-6" />
                 </Button>
               </Link>
@@ -103,7 +103,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               <div className="md:hidden">
                 <Drawer>
                   <DrawerTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="outline" size="icon" className="rounded-full">
                       <Menu className="h-6 w-6" />
                     </Button>
                   </DrawerTrigger>
