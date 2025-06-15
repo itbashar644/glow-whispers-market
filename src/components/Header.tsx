@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -106,7 +107,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   </SheetTrigger>
                   <SheetContent side="left">
                     <nav className="p-4 pt-8">
-                      <div className="flex flex-col space-y-4">
+                      <div className="flex flex-col space-y-2">
                         <SheetClose asChild>
                             <Button 
                                 variant="outline" 
@@ -117,9 +118,20 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                                 Поиск
                             </Button>
                         </SheetClose>
+
+                        <div className="border-t my-2"></div>
                         
                         <SheetClose asChild>
+                          <Link to="/catalog" className="block text-lg p-3 rounded-md hover:bg-muted">Каталог</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link to="/candle-care" className="block text-lg p-3 rounded-md hover:bg-muted">Уход за свечами</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
                           <Link to="/about" className="block text-lg p-3 rounded-md hover:bg-muted">О нас</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link to="/shipping" className="block text-lg p-3 rounded-md hover:bg-muted">Доставка</Link>
                         </SheetClose>
                         <SheetClose asChild>
                           <Link to="/contact" className="block text-lg p-3 rounded-md hover:bg-muted">Контакты</Link>
