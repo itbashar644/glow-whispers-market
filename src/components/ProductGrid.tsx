@@ -1,3 +1,4 @@
+
 import { ShoppingCart, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -127,12 +128,6 @@ export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        <div className="text-center mt-16">
-          <Button variant="outline" size="lg" className="px-8">
-            Показать еще
-          </Button>
         </div>
       </div>
     </section>
