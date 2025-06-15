@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
@@ -43,7 +42,7 @@ export const Hero = () => {
               <div className="text-muted-foreground">Натуральный воск</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-playfair font-bold text-primary mb-2">50+</div>
+              <div className="text-3xl font-playfair font-bold text-primary mb-2">40+</div>
               <div className="text-muted-foreground">Часов горения</div>
             </div>
             <div className="text-center">
