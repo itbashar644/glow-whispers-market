@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -28,11 +29,11 @@ export const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="px-8 py-6 text-lg font-medium bg-primary hover:bg-primary/90">
-              Смотреть каталог
+            <Button asChild size="lg" className="px-8 py-6 text-lg font-medium bg-primary hover:bg-primary/90">
+              <Link to="/catalog">Смотреть каталог</Link>
             </Button>
-            <Button variant="outline" size="lg" className="px-8 py-6 text-lg">
-              Узнать больше
+            <Button asChild variant="outline" size="lg" className="px-8 py-6 text-lg">
+              <Link to="/about">Узнать больше</Link>
             </Button>
           </div>
           

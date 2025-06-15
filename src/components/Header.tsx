@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   cartItemsCount: number;
@@ -16,29 +17,29 @@ export const Header = ({ cartItemsCount }: HeaderProps) => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-candle-gradient rounded-full flex items-center justify-center">
               <div className="w-3 h-4 bg-candle-flame rounded-full candle-flame"></div>
             </div>
             <h1 className="text-2xl font-playfair font-bold text-primary">
               Prototype-X.Shop
             </h1>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/catalog" className="text-foreground hover:text-primary transition-colors">
               Каталог
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/collections" className="text-foreground hover:text-primary transition-colors">
               Коллекции
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/about" className="text-foreground hover:text-primary transition-colors">
               О нас
-            </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
               Контакты
-            </a>
+            </Link>
           </nav>
 
           {/* Actions */}
@@ -79,18 +80,34 @@ export const Header = ({ cartItemsCount }: HeaderProps) => {
         {isMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t border-warm-200 pt-4">
             <div className="flex flex-col space-y-4">
-              <a href="#" className="text-foreground hover:text-primary transition-colors">
+              <Link 
+                to="/catalog" 
+                className="text-foreground hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Каталог
-              </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link 
+                to="/collections" 
+                className="text-foreground hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Коллекции
-              </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link 
+                to="/about" 
+                className="text-foreground hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 О нас
-              </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link 
+                to="/contact" 
+                className="text-foreground hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Контакты
-              </a>
+              </Link>
               <div className="pt-4 border-t border-warm-200">
                 <Button variant="outline" className="w-full">
                   <Search className="h-4 w-4 mr-2" />
