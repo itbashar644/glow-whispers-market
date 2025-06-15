@@ -45,7 +45,7 @@ const About = () => {
             </div>
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1590736969955-71cc94901144?w=600&h=400&fit=crop" 
+                src="/lovable-uploads/4d2d1e2b-d54d-48bf-97f7-c4ccfc756655.png" 
                 alt="Мастерская свечей" 
                 className="rounded-lg shadow-lg"
               />
