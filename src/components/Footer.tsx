@@ -7,9 +7,6 @@ export const Footer = () => {
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-candle-gradient rounded-full flex items-center justify-center shrink-0">
-              <div className="w-3 h-4 bg-candle-flame rounded-full candle-flame"></div>
-            </div>
             <p className="text-primary-foreground/80 text-sm whitespace-nowrap">
               © 2020-2025 Prototype Shop
             </p>
