@@ -13,7 +13,7 @@ export const Footer = () => {
               <div className="w-8 h-8 bg-candle-gradient rounded-full flex items-center justify-center">
                 <div className="w-3 h-4 bg-candle-flame rounded-full candle-flame"></div>
               </div>
-              <h3 className="text-xl font-playfair font-bold">Prototype-X.Shop</h3>
+              <h3 className="text-xl font-playfair font-bold">Prototype Shop</h3>
             </div>
             <p className="text-primary-foreground/80 leading-relaxed">
               Премиальные свечи ручной работы для создания особой атмосферы в вашем доме. 
@@ -80,7 +80,7 @@ export const Footer = () => {
         <div className="border-t border-primary-foreground/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-primary-foreground/60 text-sm">
-              © 2020-2025 Prototype-X.Shop. Все права защищены.
+              © 2020-2025 Prototype Shop. Все права защищены.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
