@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -15,7 +16,6 @@ import { Product } from "./Index";
 const Catalog = () => {
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<number[]>([]);
-  const [wishlist, setWishlist] = useState<number[]>([]);
   const [priceRange, setPriceRange] = useState([0, 5000]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("default");
@@ -132,20 +132,6 @@ const Catalog = () => {
     toast({
       title: "Товар добавлен в корзину",
       description: "Перейдите в корзину для оформления заказа",
-    });
-  };
-
-  const toggleWishlist = (productId: number) => {
-    setWishlist(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-    
-    const isAdding = !wishlist.includes(productId);
-    toast({
-      title: isAdding ? "Добавлено в избранное" : "Удалено из избранного",
-      description: isAdding ? "Товар сохранен в вашем списке желаний" : "Товар удален из списка желаний",
     });
   };
 
@@ -285,8 +271,6 @@ const Catalog = () => {
               <ProductGrid 
                 products={sortedProducts}
                 onAddToCart={addToCart}
-                onToggleWishlist={toggleWishlist}
-                wishlist={wishlist}
               />
             ) : (
               <div className="text-center py-16">
