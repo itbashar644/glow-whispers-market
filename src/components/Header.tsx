@@ -8,12 +8,11 @@ import { SearchDialog } from "@/components/SearchDialog";
 import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-  DrawerClose,
-} from "@/components/ui/drawer";
-import { Separator } from "@/components/ui/separator";
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 interface HeaderProps {
   cartItemsCount: number;
@@ -54,16 +53,16 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
             {/* Actions */}
             <div className="flex items-center md:space-x-2 space-x-1">
               <Button 
-                variant="outline" 
+                variant="ghost" 
                 size="icon" 
-                className="hidden md:flex rounded-full"
+                className="hidden md:flex"
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search className="h-6 w-6" />
               </Button>
               
               <Link to="/wishlist">
-                <Button variant="outline" size="icon" className="relative rounded-full">
+                <Button variant="ghost" size="icon" className="relative">
                   <Heart className="h-6 w-6" />
                   {wishlist.length > 0 && (
                     <Badge 
@@ -77,7 +76,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               </Link>
               
               <Link to="/cart">
-                <Button variant="outline" size="icon" className="relative rounded-full">
+                <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-6 w-6" />
                   {cartItemsCount > 0 && (
                     <Badge 
@@ -91,23 +90,23 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               </Link>
 
               <Link to="/profile">
-                <Button variant="outline" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon">
                   <User className="h-6 w-6" />
                 </Button>
               </Link>
 
               {/* Mobile menu button */}
               <div className="md:hidden">
-                <Drawer>
-                  <DrawerTrigger asChild>
+                <Sheet>
+                  <SheetTrigger asChild>
                     <Button variant="outline" size="icon" className="rounded-full">
                       <Menu className="h-6 w-6" />
                     </Button>
-                  </DrawerTrigger>
-                  <DrawerContent>
+                  </SheetTrigger>
+                  <SheetContent side="left">
                     <nav className="p-4 pt-8">
-                      <div className="flex flex-col space-y-2">
-                        <DrawerClose asChild>
+                      <div className="flex flex-col space-y-4">
+                        <SheetClose asChild>
                             <Button 
                                 variant="outline" 
                                 className="w-full justify-start text-lg p-3 h-auto font-normal"
@@ -116,41 +115,18 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                                 <Search className="h-5 w-5 mr-3" />
                                 Поиск
                             </Button>
-                        </DrawerClose>
+                        </SheetClose>
                         
-                        <Separator className="!my-4" />
-
-                        <DrawerClose asChild>
-                          <Link to="/catalog" className="text-lg p-3 rounded-md hover:bg-muted font-medium">Каталог</Link>
-                        </DrawerClose>
-                        <DrawerClose asChild>
-                          <Link to="/about" className="text-lg p-3 rounded-md hover:bg-muted">О нас</Link>
-                        </DrawerClose>
-                        <DrawerClose asChild>
-                          <Link to="/contact" className="text-lg p-3 rounded-md hover:bg-muted">Контакты</Link>
-                        </DrawerClose>
-
-                        <Separator className="!my-4" />
-                        
-                        <DrawerClose asChild>
-                          <Link to="/wishlist" className="flex items-center justify-between text-lg p-3 rounded-md hover:bg-muted">
-                            <span>Избранное</span>
-                            {wishlist.length > 0 && <Badge variant="secondary">{wishlist.length}</Badge>}
-                          </Link>
-                        </DrawerClose>
-                        <DrawerClose asChild>
-                          <Link to="/profile" className="text-lg p-3 rounded-md hover:bg-muted">Личный кабинет</Link>
-                        </DrawerClose>
-                        <DrawerClose asChild>
-                          <Link to="/cart" className="flex items-center justify-between text-lg p-3 rounded-md hover:bg-muted">
-                            <span>Корзина</span>
-                            {cartItemsCount > 0 && <Badge variant="secondary">{cartItemsCount}</Badge>}
-                          </Link>
-                        </DrawerClose>
+                        <SheetClose asChild>
+                          <Link to="/about" className="block text-lg p-3 rounded-md hover:bg-muted">О нас</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link to="/contact" className="block text-lg p-3 rounded-md hover:bg-muted">Контакты</Link>
+                        </SheetClose>
                       </div>
                     </nav>
-                  </DrawerContent>
-                </Drawer>
+                  </SheetContent>
+                </Sheet>
               </div>
             </div>
           </div>
