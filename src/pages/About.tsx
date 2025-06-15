@@ -1,4 +1,5 @@
 
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -69,7 +70,7 @@ const About = () => {
                 <Heart className="h-12 w-12 text-candle-flame mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Любовь к ремеслу</h3>
                 <p className="text-muted-foreground text-sm">
-                  Каждая свеча создается с душой и вниманием к деталям
+                  Каждая свеча создается вручную с душой и вниманием к деталям
                 </p>
               </CardContent>
             </Card>
@@ -113,3 +114,4 @@ const About = () => {
 };
 
 export default About;
+
