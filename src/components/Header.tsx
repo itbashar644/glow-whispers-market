@@ -61,17 +61,19 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                 <Heart className="h-5 w-5" />
               </Button>
               
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                {cartItemsCount > 0 && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
-                  >
-                    {cartItemsCount}
-                  </Badge>
-                )}
-              </Button>
+              <Link to="/cart">
+                <Button variant="ghost" size="icon" className="relative">
+                  <ShoppingCart className="h-5 w-5" />
+                  {cartItemsCount > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    >
+                      {cartItemsCount}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
 
               <Link to="/profile">
                 <Button variant="ghost" size="icon">
@@ -129,6 +131,13 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Личный кабинет
+                </Link>
+                <Link 
+                  to="/cart" 
+                  className="text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Корзина ({cartItemsCount})
                 </Link>
                 <div className="pt-4 border-t border-warm-200">
                   <Button 
