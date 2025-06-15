@@ -2,6 +2,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
 
 type Order = {
   id: string;
@@ -9,6 +15,7 @@ type Order = {
   status: string;
   total: number;
   items: { name: string; price: number; quantity: number }[];
+  order_number: number;
 };
 
 interface OrderHistoryProps {
@@ -46,7 +53,7 @@ export const OrderHistory = ({ orders }: OrderHistoryProps) => {
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-lg">Заказ #{order.id.substring(0, 8)}</CardTitle>
+                <CardTitle className="text-lg">Заказ ORD-{String(order.order_number).padStart(3, '0')}</CardTitle>
                 <p className="text-sm text-muted-foreground">
                   {new Date(order.created_at).toLocaleDateString('ru-RU')}
                 </p>
@@ -57,18 +64,20 @@ export const OrderHistory = ({ orders }: OrderHistoryProps) => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {order.items.map((item, index) => (
-                <div key={index} className="flex justify-between">
-                  <span>{item.name} × {item.quantity}</span>
-                  <span>{item.price * item.quantity} ₽</span>
-                </div>
-              ))}
-              <Separator />
-              <div className="flex justify-between font-semibold">
-                <span>Итого:</span>
-                <span>{order.total} ₽</span>
-              </div>
+            <Table>
+              <TableBody>
+                {order.items.map((item, index) => (
+                  <TableRow key={index} className="border-none">
+                    <TableCell className="p-0 pb-1 pr-2">{item.name} × {item.quantity}</TableCell>
+                    <TableCell className="text-right p-0 pb-1 whitespace-nowrap">{item.price * item.quantity} ₽</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Separator className="my-2" />
+            <div className="flex justify-between font-semibold">
+              <span>Итого:</span>
+              <span>{order.total} ₽</span>
             </div>
           </CardContent>
         </Card>

@@ -15,6 +15,7 @@ import { ProfileSkeleton } from "@/components/profile/ProfileSkeleton";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { OrderHistory } from "@/components/profile/OrderHistory";
 import { NotificationSettings } from "@/components/profile/NotificationSettings";
+import { Product } from "@/pages/Index";
 
 type Order = {
   id: string;
@@ -22,6 +23,7 @@ type Order = {
   status: string;
   total: number;
   items: { name: string; price: number; quantity: number }[];
+  order_number: number;
 };
 
 const Profile = () => {
@@ -60,7 +62,7 @@ const Profile = () => {
         .order('created_at', { ascending: false })
         .then(({ data }) => {
           if (data) {
-            setOrders(data as any);
+            setOrders(data as Order[]);
           }
         });
     }
