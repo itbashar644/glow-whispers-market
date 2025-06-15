@@ -1,53 +1,72 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { User, Package, Heart, Settings, ShoppingCart } from "lucide-react";
+import { User, Package, Heart, Settings, ShoppingCart, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNavigate } from "react-router-dom";
+
+type Order = {
+  id: string;
+  created_at: string;
+  status: string;
+  total: number;
+  items: { name: string; price: number; quantity: number }[];
+};
 
 const Profile = () => {
   const { toast } = useToast();
   const { wishlist, toggleWishlist } = useWishlist();
+  const { user, profile, signOut, loading, setProfile } = useAuth();
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<number[]>([]);
 
   const [userInfo, setUserInfo] = useState({
-    firstName: "Анна",
-    lastName: "Иванова",
-    email: "anna@example.com",
-    phone: "+7 (999) 123-45-67",
-    address: "г. Москва, ул. Примерная, д. 10, кв. 25"
+    name: "",
+    email: "",
+    phone: "",
+    address: ""
   });
 
-  const [orders] = useState([
-    {
-      id: "ORD-001",
-      date: "2024-01-15",
-      status: "Доставлен",
-      total: 8500,
-      items: [
-        { name: "Лавандовые Сны", price: 2800, quantity: 2 },
-        { name: "Цитрусовая Свежесть", price: 3100, quantity: 1 }
-      ]
-    },
-    {
-      id: "ORD-002", 
-      date: "2024-01-20",
-      status: "В пути",
-      total: 6400,
-      items: [
-        { name: "Древесные Нотки", price: 3500, quantity: 1 },
-        { name: "Морской Бриз", price: 2900, quantity: 1 }
-      ]
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (user && profile) {
+      setUserInfo({
+        name: profile.name || "",
+        email: user.email || "",
+        phone: profile.phone || "",
+        address: profile.address || "",
+      });
+    } else if (user) {
+      setUserInfo(prev => ({ ...prev, email: user.email || '' }));
     }
-  ]);
+
+    if (user) {
+      supabase
+        .from('orders')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .then(({ data }) => {
+          if (data) {
+            setOrders(data as any);
+          }
+        });
+    }
+  }, [user, profile]);
 
   // All products data for wishlist display
   const allProducts: Product[] = [
@@ -133,11 +152,32 @@ const Profile = () => {
 
   const wishlistProducts = allProducts.filter(product => wishlist.includes(product.id));
 
-  const handleSaveProfile = () => {
-    toast({
-      title: "Профиль обновлен",
-      description: "Ваши данные успешно сохранены",
-    });
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    setIsSaving(true);
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({
+        name: userInfo.name,
+        phone: userInfo.phone,
+        address: userInfo.address,
+      })
+      .eq('id', user.id)
+      .select()
+      .single();
+
+    if (error) {
+      toast({ title: "Ошибка", description: error.message, variant: "destructive" });
+    } else {
+      setProfile(data);
+      toast({ title: "Профиль обновлен", description: "Ваши данные успешно сохранены" });
+    }
+    setIsSaving(false);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
   };
 
   const addToCart = (productId: number) => {
@@ -161,95 +201,84 @@ const Profile = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-warm-gradient">
+        <Header cartItemsCount={0} />
+        <div className="container mx-auto px-4 py-8">
+          <Skeleton className="h-12 w-1/2 mb-8" />
+          <div className="grid grid-cols-4 gap-2 mb-6">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <Card>
+            <CardHeader><Skeleton className="h-8 w-1/4" /></CardHeader>
+            <CardContent className="space-y-4">
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-10 w-32" />
+            </CardContent>
+          </Card>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-warm-gradient">
       <Header cartItemsCount={cartItems.length} products={allProducts} />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-playfair font-bold text-primary mb-2">
-            Личный кабинет
-          </h1>
-          <p className="text-muted-foreground">
-            Управляйте своим профилем и заказами
-          </p>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-4xl font-playfair font-bold text-primary mb-2">
+              Личный кабинет
+            </h1>
+            <p className="text-muted-foreground">
+              Добро пожаловать, {userInfo.name || 'Гость'}!
+            </p>
+          </div>
+          <Button variant="outline" onClick={handleSignOut}>
+            <LogOut className="h-4 w-4 mr-2" />
+            Выйти
+          </Button>
         </div>
 
         <Tabs defaultValue="profile" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="profile" className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              Профиль
-            </TabsTrigger>
-            <TabsTrigger value="orders" className="flex items-center gap-2">
-              <Package className="h-4 w-4" />
-              Заказы
-            </TabsTrigger>
-            <TabsTrigger value="wishlist" className="flex items-center gap-2">
-              <Heart className="h-4 w-4" />
-              Избранное
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              Настройки
-            </TabsTrigger>
+            <TabsTrigger value="profile" className="flex items-center gap-2"><User className="h-4 w-4" />Профиль</TabsTrigger>
+            <TabsTrigger value="orders" className="flex items-center gap-2"><Package className="h-4 w-4" />Заказы</TabsTrigger>
+            <TabsTrigger value="wishlist" className="flex items-center gap-2"><Heart className="h-4 w-4" />Избранное</TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2"><Settings className="h-4 w-4" />Настройки</TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile">
             <Card>
-              <CardHeader>
-                <CardTitle>Личная информация</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle>Личная информация</CardTitle></CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">Имя</Label>
-                    <Input
-                      id="firstName"
-                      value={userInfo.firstName}
-                      onChange={(e) => setUserInfo(prev => ({ ...prev, firstName: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Фамилия</Label>
-                    <Input
-                      id="lastName"
-                      value={userInfo.lastName}
-                      onChange={(e) => setUserInfo(prev => ({ ...prev, lastName: e.target.value }))}
-                    />
+                    <Label htmlFor="name">Имя</Label>
+                    <Input id="name" value={userInfo.name} onChange={(e) => setUserInfo(prev => ({ ...prev, name: e.target.value }))} />
                   </div>
                 </div>
-                
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={userInfo.email}
-                    onChange={(e) => setUserInfo(prev => ({ ...prev, email: e.target.value }))}
-                  />
+                  <Input id="email" type="email" value={userInfo.email} disabled />
                 </div>
-                
                 <div className="space-y-2">
                   <Label htmlFor="phone">Телефон</Label>
-                  <Input
-                    id="phone"
-                    value={userInfo.phone}
-                    onChange={(e) => setUserInfo(prev => ({ ...prev, phone: e.target.value }))}
-                  />
+                  <Input id="phone" value={userInfo.phone} onChange={(e) => setUserInfo(prev => ({ ...prev, phone: e.target.value }))} />
                 </div>
-                
                 <div className="space-y-2">
                   <Label htmlFor="address">Адрес</Label>
-                  <Input
-                    id="address"
-                    value={userInfo.address}
-                    onChange={(e) => setUserInfo(prev => ({ ...prev, address: e.target.value }))}
-                  />
+                  <Input id="address" value={userInfo.address} onChange={(e) => setUserInfo(prev => ({ ...prev, address: e.target.value }))} />
                 </div>
-                
-                <Button onClick={handleSaveProfile} className="w-full md:w-auto">
-                  Сохранить изменения
+                <Button onClick={handleSaveProfile} disabled={isSaving} className="w-full md:w-auto">
+                  {isSaving ? 'Сохранение...' : 'Сохранить изменения'}
                 </Button>
               </CardContent>
             </Card>

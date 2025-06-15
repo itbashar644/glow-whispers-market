@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,7 @@ import { Link } from "react-router-dom";
 import { SearchDialog } from "@/components/SearchDialog";
 import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Sheet,
   SheetContent,
@@ -22,6 +22,7 @@ interface HeaderProps {
 export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { wishlist } = useWishlist();
+  const { session } = useAuth();
 
   return (
     <>
@@ -89,7 +90,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                 </Button>
               </Link>
 
-              <Link to="/profile">
+              <Link to={session ? "/profile" : "/auth"}>
                 <Button variant="ghost" size="icon">
                   <User className="h-6 w-6" />
                 </Button>

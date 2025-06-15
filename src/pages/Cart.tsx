@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { CartItem } from "@/components/cart/CartItem";
 import { CartSummary } from "@/components/cart/CartSummary";
 import { ContactForm } from "@/components/cart/ContactForm";
 import { EmptyCart } from "@/components/cart/EmptyCart";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface CartItem {
   product: Product;
@@ -29,25 +29,33 @@ interface ContactInfo {
 
 const Cart = () => {
   const { toast } = useToast();
-  
-  // Mock user profile data - в реальном приложении это будет из контекста
-  const userProfile = {
-    firstName: "Анна",
-    lastName: "Иванова", 
-    email: "anna@example.com",
-    phone: "+7 (999) 123-45-67",
-    address: "г. Москва, ул. Примерная, д. 10, кв. 25"
-  };
+  const { user, profile } = useAuth();
 
-  // Contact form state - автоматически заполняется данными пользователя
+  // Contact form state
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
-    firstName: userProfile.firstName || "",
-    lastName: userProfile.lastName || "",
-    email: userProfile.email || "",
-    phone: userProfile.phone || "",
-    address: userProfile.address || "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
     comment: ""
   });
+  
+  useEffect(() => {
+    if (profile) {
+      const nameParts = (profile.name || '').split(' ');
+      setContactInfo(prev => ({
+        ...prev,
+        firstName: nameParts[0] || '',
+        lastName: nameParts.slice(1).join(' ') || '',
+        email: user?.email || '',
+        phone: profile.phone || '',
+        address: profile.address || '',
+      }));
+    } else if(user) {
+        setContactInfo(prev => ({ ...prev, email: user.email || ''}));
+    }
+  }, [user, profile]);
 
   // Mock cart items - в реальном приложении это будет из контекста/состояния
   const [cartItems, setCartItems] = useState<CartItem[]>([
