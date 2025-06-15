@@ -27,20 +27,6 @@ const Index = () => {
 
   const products: Product[] = [
     {
-      id: 1,
-      name: "Лавандовые Сны",
-      price: 2800,
-      originalPrice: 3200,
-      image: "https://images.unsplash.com/photo-1602874801006-2b21dc4fcc48?w=400&h=500&fit=crop",
-      category: "Ароматические",
-      rating: 4.8,
-      reviews: 124,
-      scent: "Лаванда и ваниль",
-      burnTime: "45-50 часов",
-      description: "Успокаивающая свеча с натуральной лавандой для идеального расслабления.",
-      isOnSale: true
-    },
-    {
       id: 2,
       name: "Цитрусовая Свежесть",
       price: 3100,

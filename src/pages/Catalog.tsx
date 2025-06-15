@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -13,20 +12,6 @@ const Catalog = () => {
   const [cartItems, setCartItems] = useState<number[]>([]);
 
   const products: Product[] = [
-    {
-      id: 1,
-      name: "Лавандовые Сны",
-      price: 2800,
-      originalPrice: 3200,
-      image: "https://images.unsplash.com/photo-1602874801006-2b21dc4fcc48?w=400&h=500&fit=crop",
-      category: "Ароматические",
-      rating: 4.8,
-      reviews: 124,
-      scent: "Лаванда и ваниль",
-      burnTime: "45-50 часов",
-      description: "Успокаивающая свеча с натуральной лавандой для идеального расслабления.",
-      isOnSale: true
-    },
     {
       id: 2,
       name: "Цитрусовая Свежесть",
@@ -117,7 +102,7 @@ const Catalog = () => {
     }
   ];
 
-  const categories = ["Ароматические", "Цитрусовые", "Древесные", "Свежие", "Цветочные", "Пряные", "Сладкие"];
+  const categories = ["Цитрусовые", "Древесные", "Свежие", "Цветочные", "Пряные", "Сладкие"];
 
   const {
     priceRange,
