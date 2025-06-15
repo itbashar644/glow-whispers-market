@@ -98,7 +98,6 @@ const Shipping = () => {
               Остались вопросы? Свяжитесь с нами любым удобным способом
             </p>
             <div className="flex justify-center space-x-6 text-sm">
-              <span>📞 +7 (999) 123-45-67</span>
               <span>📧 info@prototypecandle.ru</span>
             </div>
           </div>

@@ -40,7 +40,7 @@ export const Footer = () => {
             <h4 className="text-lg font-semibold">Поддержка</h4>
             <nav className="flex flex-col space-y-2">
               <Link to="/shipping" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                Доставка и возврат
+                Доставка
               </Link>
               <Link to="/candle-care" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Уход за свечами
