@@ -1,15 +1,14 @@
-import { useState } from "react";
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FilterSidebar } from "@/components/catalog/FilterSidebar";
 import { ProductsSection } from "@/components/catalog/ProductsSection";
-import { useToast } from "@/hooks/use-toast";
 import { useCatalogFilters } from "@/hooks/useCatalogFilters";
 import { Product } from "./Index";
+import { useCart } from "@/contexts/CartContext";
 
 const Catalog = () => {
-  const { toast } = useToast();
-  const [cartItems, setCartItems] = useState<number[]>([]);
+  const { addToCart, totalItems } = useCart();
 
   const products: Product[] = [
     {
@@ -115,17 +114,16 @@ const Catalog = () => {
     sortedProducts
   } = useCatalogFilters(products);
 
-  const addToCart = (productId: number) => {
-    setCartItems(prev => [...prev, productId]);
-    toast({
-      title: "Товар добавлен в корзину",
-      description: "Перейдите в корзину для оформления заказа",
-    });
+  const handleAddToCart = (productId: number) => {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      addToCart(product);
+    }
   };
 
   return (
     <div className="min-h-screen bg-warm-gradient">
-      <Header cartItemsCount={cartItems.length} products={products} />
+      <Header cartItemsCount={totalItems} products={products} />
       
       {/* Hero Section */}
       <section className="py-20 px-4">
@@ -159,7 +157,7 @@ const Catalog = () => {
             products={sortedProducts}
             sortBy={sortBy}
             onSortChange={setSortBy}
-            onAddToCart={addToCart}
+            onAddToCart={handleAddToCart}
             onResetFilters={resetFilters}
           />
         </div>

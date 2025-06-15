@@ -8,7 +8,7 @@ import type { Product } from "@/pages/Index";
 
 interface ProductGridProps {
   products: Product[];
-  onAddToCart: (productId: number) => void;
+  onAddToCart: (product: Product) => void;
 }
 
 export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
@@ -69,7 +69,7 @@ export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
                   {/* Quick add to cart on hover with lower z-index */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
                     <Button
-                      onClick={() => onAddToCart(product.id)}
+                      onClick={() => onAddToCart(product)}
                       className="bg-white text-primary hover:bg-warm-100 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                     >
                       <ShoppingCart className="h-4 w-4 mr-2" />
@@ -116,7 +116,7 @@ export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
                     </div>
                     
                     <Button
-                      onClick={() => onAddToCart(product.id)}
+                      onClick={() => onAddToCart(product)}
                       size="sm"
                       variant="outline"
                       className="shrink-0"

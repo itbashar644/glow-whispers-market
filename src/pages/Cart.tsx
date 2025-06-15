@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -5,18 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
-import type { Product } from "@/pages/Index";
 import { CartHeader } from "@/components/cart/CartHeader";
 import { CartItem } from "@/components/cart/CartItem";
 import { CartSummary } from "@/components/cart/CartSummary";
 import { ContactForm } from "@/components/cart/ContactForm";
 import { EmptyCart } from "@/components/cart/EmptyCart";
 import { useAuth } from "@/contexts/AuthContext";
-
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
+import { useCart } from "@/contexts/CartContext";
 
 interface ContactInfo {
   firstName: string;
@@ -30,6 +26,13 @@ interface ContactInfo {
 const Cart = () => {
   const { toast } = useToast();
   const { user, profile } = useAuth();
+  const {
+    cartItems,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    totalItems,
+  } = useCart();
 
   // Contact form state
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
@@ -57,74 +60,6 @@ const Cart = () => {
     }
   }, [user, profile]);
 
-  // Mock cart items - в реальном приложении это будет из контекста/состояния
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      product: {
-        id: 1,
-        name: "Лавандовые Сны",
-        price: 2800,
-        originalPrice: 3200,
-        image: "https://images.unsplash.com/photo-1602874801006-2b21dc4fcc48?w=400&h=500&fit=crop",
-        category: "Ароматические",
-        rating: 4.8,
-        reviews: 124,
-        scent: "Лаванда и ваниль",
-        burnTime: "45-50 часов",
-        description: "Успокаивающая свеча с натуральной лавандой для идеального расслабления.",
-        isOnSale: true
-      },
-      quantity: 2
-    },
-    {
-      product: {
-        id: 2,
-        name: "Цитрусовая Свежесть",
-        price: 3100,
-        image: "https://images.unsplash.com/photo-1615887023516-0e3d60982f11?w=400&h=500&fit=crop",
-        category: "Цитрусовые",
-        rating: 4.9,
-        reviews: 89,
-        scent: "Лимон и грейпфрут",
-        burnTime: "40-45 часов",
-        description: "Бодрящий аромат цитрусовых для энергии и хорошего настроения.",
-        isNew: true
-      },
-      quantity: 1
-    }
-  ]);
-
-  const updateQuantity = (productId: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      removeItem(productId);
-      return;
-    }
-
-    setCartItems(prev => 
-      prev.map(item => 
-        item.product.id === productId 
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (productId: number) => {
-    setCartItems(prev => prev.filter(item => item.product.id !== productId));
-    toast({
-      title: "Товар удален из корзины",
-      description: "Товар успешно удален из вашей корзины",
-    });
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-    toast({
-      title: "Корзина очищена",
-      description: "Все товары удалены из корзины",
-    });
-  };
-
   const handleContactChange = (field: keyof ContactInfo, value: string) => {
     setContactInfo(prev => ({ ...prev, [field]: value }));
   };
@@ -147,9 +82,9 @@ const Cart = () => {
 
     // В реальном приложении здесь будет отправка заказа на сервер
     console.log("Order submitted:", { items: cartItems, contact: contactInfo, total: totalPrice });
+    clearCart();
   };
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const totalDiscount = cartItems.reduce((sum, item) => {
     if (item.product.originalPrice) {

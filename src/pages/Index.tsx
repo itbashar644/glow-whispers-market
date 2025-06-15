@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Footer } from "@/components/Footer";
+import { useCart } from "@/contexts/CartContext";
 
 export interface Product {
   id: number;
@@ -22,8 +22,7 @@ export interface Product {
 }
 
 const Index = () => {
-  const { toast } = useToast();
-  const [cartItems, setCartItems] = useState<number[]>([]);
+  const { addToCart, totalItems } = useCart();
 
   const products: Product[] = [
     {
@@ -92,17 +91,9 @@ const Index = () => {
     }
   ];
 
-  const addToCart = (productId: number) => {
-    setCartItems(prev => [...prev, productId]);
-    toast({
-      title: "Товар добавлен в корзину",
-      description: "Перейдите в корзину для оформления заказа",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-warm-gradient">
-      <Header cartItemsCount={cartItems.length} products={products} />
+      <Header cartItemsCount={totalItems} products={products} />
       <Hero />
       <ProductGrid 
         products={products}
