@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,9 @@ const Contact = () => {
       <Header cartItemsCount={0} />
       
       {/* Hero Section */}
-      <section className="py-20 px-4">
+      <section className="py-12 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="text-5xl font-playfair font-bold text-primary mb-6">
+          <h1 className="text-5xl font-playfair font-bold text-primary mb-4">
             Контакты
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -24,7 +25,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-16 px-4">
+      <section className="py-8 px-4">
         <div className="container mx-auto max-w-2xl">
           <Card>
             <CardHeader>
