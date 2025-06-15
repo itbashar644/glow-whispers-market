@@ -6,7 +6,7 @@ export const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -75,35 +75,12 @@ export const Footer = () => {
               </a>
             </nav>
           </div>
-
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Контакты</h4>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-candle-flame" />
-                <span className="text-primary-foreground/80">+7 (999) 123-45-67</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-candle-flame" />
-                <span className="text-primary-foreground/80">info@prototype-x.shop</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-candle-flame" />
-                <span className="text-primary-foreground/80">Москва, Россия</span>
-              </div>
-            </div>
-            <div className="pt-4">
-              <p className="text-sm text-primary-foreground/60 mb-2">Работаем ежедневно:</p>
-              <p className="text-sm text-primary-foreground/80">10:00 - 22:00</p>
-            </div>
-          </div>
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-primary-foreground/60 text-sm">
-              © 2024 Prototype-X.Shop. Все права защищены.
+              © 2020-2025 Prototype-X.Shop. Все права защищены.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
