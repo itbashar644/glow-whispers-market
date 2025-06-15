@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -193,11 +194,11 @@ const Cart = () => {
                     Очистить корзину
                   </Button>
                   
-                  <Link to="/catalog">
-                    <Button variant="ghost">
+                  <Button variant="ghost" asChild>
+                    <Link to="/catalog">
                       Продолжить покупки
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
