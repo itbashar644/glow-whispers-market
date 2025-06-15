@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { SearchDialog } from "@/components/SearchDialog";
+import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
 
 interface HeaderProps {
@@ -15,6 +15,7 @@ interface HeaderProps {
 export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { wishlist } = useWishlist();
 
   return (
     <>
@@ -58,8 +59,16 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
               </Button>
               
               <Link to="/wishlist">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="relative">
                   <Heart className="h-5 w-5" />
+                  {wishlist.length > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    >
+                      {wishlist.length}
+                    </Badge>
+                  )}
                 </Button>
               </Link>
               
@@ -132,7 +141,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   className="text-foreground hover:text-primary transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Избранное
+                  Избранное ({wishlist.length})
                 </Link>
                 <Link 
                   to="/profile" 
