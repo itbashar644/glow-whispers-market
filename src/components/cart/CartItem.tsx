@@ -26,15 +26,15 @@ export const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRe
       />
       
       <div className="flex-1 min-w-0">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold text-primary truncate">
+        <div className="flex justify-between items-start mb-2 gap-2">
+          <h3 className="font-semibold text-primary">
             {item.product.name}
           </h3>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => onRemoveItem(item.product.id)}
-            className="text-muted-foreground hover:text-destructive"
+            className="text-muted-foreground hover:text-destructive h-6 w-6 shrink-0"
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -48,7 +48,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRe
           {item.product.category}
         </Badge>
         
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
             <Button
               variant="outline"
