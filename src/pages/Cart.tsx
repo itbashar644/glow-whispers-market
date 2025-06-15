@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -118,33 +117,34 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-6">
             {/* Products */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Товары в корзине</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {cartItems.map((item) => (
-                  <CartItem
-                    key={item.product.id}
-                    item={item}
-                    onUpdateQuantity={updateQuantity}
-                    onRemoveItem={removeItem}
-                  />
-                ))}
-                
-                <div className="flex justify-between items-center pt-4">
-                  <Button variant="outline" onClick={clearCart}>
-                    Очистить корзину
-                  </Button>
+            <div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Товары в корзине</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {cartItems.map((item) => (
+                    <CartItem
+                      key={item.product.id}
+                      item={item}
+                      onUpdateQuantity={updateQuantity}
+                      onRemoveItem={removeItem}
+                    />
+                  ))}
                   
-                  <Button variant="ghost" asChild>
-                    <Link to="/catalog">
-                      Продолжить покупки
-                    </Link>
+                  <div className="flex justify-start pt-4">
+                    <Button variant="outline" onClick={clearCart}>
+                      Очистить корзину
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+              <div className="flex justify-end mt-4">
+                  <Button asChild>
+                      <Link to="/catalog">Продолжить покупки</Link>
                   </Button>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Contact Information */}
             <ContactForm
