@@ -15,13 +15,15 @@ export const useAuth = () => {
   useEffect(() => {
     let mounted = true;
 
-    const fetchInitialSession = async () => {
+    const getInitialSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
           console.error('Error fetching session:', error);
-          setLoading(false);
+          if (mounted) {
+            setLoading(false);
+          }
           return;
         }
 
@@ -30,28 +32,38 @@ export const useAuth = () => {
           setUser(session?.user ?? null);
           
           if (session?.user) {
-            const { data: profileData } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
-            
-            if (mounted) {
-              setProfile(profileData);
+            // Fetch profile data
+            try {
+              const { data: profileData, error: profileError } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              
+              if (profileError && profileError.code !== 'PGRST116') {
+                console.error('Error fetching profile:', profileError);
+              } else if (profileData) {
+                setProfile(profileData);
+              }
+            } catch (err) {
+              console.error('Profile fetch error:', err);
             }
           }
+          
           setLoading(false);
         }
       } catch (error) {
-        console.error('Error in fetchInitialSession:', error);
+        console.error('Error in getInitialSession:', error);
         if (mounted) {
           setLoading(false);
         }
       }
     };
 
-    fetchInitialSession();
+    // Get initial session
+    getInitialSession();
 
+    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, session);
       
@@ -63,17 +75,23 @@ export const useAuth = () => {
           // Defer profile fetching to prevent potential deadlocks
           setTimeout(async () => {
             if (mounted) {
-              const { data: profileData } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-              
-              if (mounted) {
-                setProfile(profileData);
+              try {
+                const { data: profileData, error: profileError } = await supabase
+                  .from('profiles')
+                  .select('*')
+                  .eq('id', session.user.id)
+                  .single();
+                
+                if (profileError && profileError.code !== 'PGRST116') {
+                  console.error('Error fetching profile:', profileError);
+                } else if (profileData) {
+                  setProfile(profileData);
+                }
+              } catch (err) {
+                console.error('Profile fetch error:', err);
               }
             }
-          }, 0);
+          }, 100);
         } else {
           setProfile(null);
         }
