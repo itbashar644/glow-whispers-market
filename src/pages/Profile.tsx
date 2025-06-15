@@ -3,20 +3,18 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { User, Package, Settings, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import type { Product } from "@/pages/Index";
+import { ProfileSkeleton } from "@/components/profile/ProfileSkeleton";
+import { ProfileForm } from "@/components/profile/ProfileForm";
+import { OrderHistory } from "@/components/profile/OrderHistory";
+import { NotificationSettings } from "@/components/profile/NotificationSettings";
 
 type Order = {
   id: string;
@@ -167,7 +165,7 @@ const Profile = () => {
     if (error) {
       toast({ title: "Ошибка", description: error.message, variant: "destructive" });
     } else {
-      setProfile(data);
+      if (data) setProfile(data);
       toast({ title: "Профиль обновлен", description: "Ваши данные успешно сохранены" });
     }
     setIsSaving(false);
@@ -178,40 +176,11 @@ const Profile = () => {
     navigate('/');
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Доставлен":
-        return "bg-green-100 text-green-800";
-      case "В пути":
-        return "bg-blue-100 text-blue-800";
-      case "Обрабатывается":
-        return "bg-yellow-100 text-yellow-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-warm-gradient">
-        <Header cartItemsCount={0} />
-        <div className="container mx-auto px-4 py-8">
-          <Skeleton className="h-12 w-1/2 mb-8" />
-          <div className="grid grid-cols-4 gap-2 mb-6">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
-          <Card>
-            <CardHeader><Skeleton className="h-8 w-1/4" /></CardHeader>
-            <CardContent className="space-y-4">
-              <Skeleton className="h-16 w-full" />
-              <Skeleton className="h-16 w-full" />
-              <Skeleton className="h-10 w-32" />
-            </CardContent>
-          </Card>
-        </div>
+        <Header cartItemsCount={0} products={[]} />
+        <ProfileSkeleton />
         <Footer />
       </div>
     );
@@ -245,114 +214,20 @@ const Profile = () => {
           </TabsList>
 
           <TabsContent value="profile">
-            <Card>
-              <CardHeader><CardTitle>Личная информация</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Имя</Label>
-                    <Input id="name" value={userInfo.name} onChange={(e) => setUserInfo(prev => ({ ...prev, name: e.target.value }))} />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" value={userInfo.email} disabled />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Телефон</Label>
-                  <Input id="phone" value={userInfo.phone} onChange={(e) => setUserInfo(prev => ({ ...prev, phone: e.target.value }))} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="address">Адрес</Label>
-                  <Input id="address" value={userInfo.address} onChange={(e) => setUserInfo(prev => ({ ...prev, address: e.target.value }))} />
-                </div>
-                <Button onClick={handleSaveProfile} disabled={isSaving} className="w-full md:w-auto">
-                  {isSaving ? 'Сохранение...' : 'Сохранить изменения'}
-                </Button>
-              </CardContent>
-            </Card>
+            <ProfileForm 
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              handleSaveProfile={handleSaveProfile}
+              isSaving={isSaving}
+            />
           </TabsContent>
 
           <TabsContent value="orders">
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <Card key={order.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-lg">Заказ {order.id}</CardTitle>
-                        <p className="text-sm text-muted-foreground">
-                          {new Date(order.created_at).toLocaleDateString('ru-RU')}
-                        </p>
-                      </div>
-                      <Badge className={getStatusColor(order.status)}>
-                        {order.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      {order.items.map((item, index) => (
-                        <div key={index} className="flex justify-between">
-                          <span>{item.name} × {item.quantity}</span>
-                          <span>{item.price * item.quantity} ₽</span>
-                        </div>
-                      ))}
-                      <Separator />
-                      <div className="flex justify-between font-semibold">
-                        <span>Итого:</span>
-                        <span>{order.total} ₽</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <OrderHistory orders={orders} />
           </TabsContent>
 
           <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Настройки уведомлений</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Email уведомления</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Получать уведомления о статусе заказов
-                    </p>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    Включено
-                  </Button>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">SMS уведомления</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Получать SMS о доставке заказов
-                    </p>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    Отключено
-                  </Button>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">Рекламные рассылки</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Получать информацию о скидках и новинках
-                    </p>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    Включено
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <NotificationSettings />
           </TabsContent>
         </Tabs>
       </div>
@@ -363,4 +238,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
