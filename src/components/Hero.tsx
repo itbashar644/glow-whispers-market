@@ -13,7 +13,7 @@ export const Hero = () => {
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <Badge variant="secondary" className="mb-6 text-sm px-4 py-2">
-            ✨ Новая коллекция осень-зима 2024
+            ✨ У нас новая коллекция
           </Badge>
           
           <h1 className="text-5xl md:text-7xl font-playfair font-bold text-primary mb-6 leading-tight">
