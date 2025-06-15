@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
@@ -6,6 +7,12 @@ export const Hero = () => {
   return (
     <section className="relative py-20 px-4 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-warm-50 via-candle-cream to-warm-100"></div>
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        style={{
+          backgroundImage: "url('/lovable-uploads/63bdbcba-eab6-4411-8c8e-d0a9eca4019c.png')"
+        }}
+      ></div>
       <div className="absolute top-20 left-10 w-32 h-32 bg-candle-flame/10 rounded-full blur-xl"></div>
       <div className="absolute bottom-20 right-10 w-40 h-40 bg-warm-300/20 rounded-full blur-xl"></div>
       
