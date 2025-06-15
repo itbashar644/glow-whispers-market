@@ -1,5 +1,5 @@
 
-import { Mail, Phone, MapPin, Instagram, Facebook, Youtube } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Footer = () => {
@@ -19,17 +19,6 @@ export const Footer = () => {
               Премиальные свечи ручной работы для создания особой атмосферы в вашем доме. 
               Качество, проверенное временем.
             </p>
-            <div className="flex space-x-4">
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-candle-flame">
-                <Instagram className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-candle-flame">
-                <Facebook className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-candle-flame">
-                <Youtube className="h-5 w-5" />
-              </Button>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -62,13 +51,7 @@ export const Footer = () => {
                 Доставка и возврат
               </a>
               <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                Размерная сетка
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Уход за свечами
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                FAQ
               </a>
               <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Контакты
