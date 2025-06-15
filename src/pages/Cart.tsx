@@ -1,11 +1,13 @@
-
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
@@ -16,9 +18,37 @@ interface CartItem {
   quantity: number;
 }
 
+interface ContactInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  comment: string;
+}
+
 const Cart = () => {
   const { toast } = useToast();
   
+  // Mock user profile data - в реальном приложении это будет из контекста
+  const userProfile = {
+    firstName: "Анна",
+    lastName: "Иванова", 
+    email: "anna@example.com",
+    phone: "+7 (999) 123-45-67",
+    address: "г. Москва, ул. Примерная, д. 10, кв. 25"
+  };
+
+  // Contact form state - автоматически заполняется данными пользователя
+  const [contactInfo, setContactInfo] = useState<ContactInfo>({
+    firstName: userProfile.firstName || "",
+    lastName: userProfile.lastName || "",
+    email: userProfile.email || "",
+    phone: userProfile.phone || "",
+    address: userProfile.address || "",
+    comment: ""
+  });
+
   // Mock cart items - в реальном приложении это будет из контекста/состояния
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
@@ -87,6 +117,30 @@ const Cart = () => {
     });
   };
 
+  const handleContactChange = (field: keyof ContactInfo, value: string) => {
+    setContactInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmitOrder = () => {
+    // Проверяем обязательные поля
+    if (!contactInfo.firstName || !contactInfo.lastName || !contactInfo.email || !contactInfo.phone || !contactInfo.address) {
+      toast({
+        title: "Заполните все поля",
+        description: "Пожалуйста, заполните все обязательные поля для оформления заказа",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Заказ оформлен!",
+      description: "Мы свяжемся с вами в ближайшее время для подтверждения заказа",
+    });
+
+    // В реальном приложении здесь будет отправка заказа на сервер
+    console.log("Order submitted:", { items: cartItems, contact: contactInfo, total: totalPrice });
+  };
+
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const totalDiscount = cartItems.reduce((sum, item) => {
@@ -139,11 +193,15 @@ const Cart = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
-            {cartItems.map((item) => (
-              <Card key={item.product.id}>
-                <CardContent className="p-6">
-                  <div className="flex gap-4">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Products */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Товары в корзине</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {cartItems.map((item) => (
+                  <div key={item.product.id} className="flex gap-4 p-4 border rounded-lg">
                     <img 
                       src={item.product.image} 
                       alt={item.product.name}
@@ -211,21 +269,97 @@ const Cart = () => {
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-            
-            <div className="flex justify-between items-center pt-4">
-              <Button variant="outline" onClick={clearCart}>
-                Очистить корзину
-              </Button>
-              
-              <Link to="/catalog">
-                <Button variant="ghost">
-                  Продолжить покупки
-                </Button>
-              </Link>
-            </div>
+                ))}
+                
+                <div className="flex justify-between items-center pt-4">
+                  <Button variant="outline" onClick={clearCart}>
+                    Очистить корзину
+                  </Button>
+                  
+                  <Link to="/catalog">
+                    <Button variant="ghost">
+                      Продолжить покупки
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Contact Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Контактная информация</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">Имя *</Label>
+                    <Input
+                      id="firstName"
+                      value={contactInfo.firstName}
+                      onChange={(e) => handleContactChange('firstName', e.target.value)}
+                      placeholder="Введите имя"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Фамилия *</Label>
+                    <Input
+                      id="lastName"
+                      value={contactInfo.lastName}
+                      onChange={(e) => handleContactChange('lastName', e.target.value)}
+                      placeholder="Введите фамилию"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={contactInfo.email}
+                    onChange={(e) => handleContactChange('email', e.target.value)}
+                    placeholder="Введите email"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Телефон *</Label>
+                  <Input
+                    id="phone"
+                    value={contactInfo.phone}
+                    onChange={(e) => handleContactChange('phone', e.target.value)}
+                    placeholder="Введите номер телефона"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="address">Адрес доставки *</Label>
+                  <Textarea
+                    id="address"
+                    value={contactInfo.address}
+                    onChange={(e) => handleContactChange('address', e.target.value)}
+                    placeholder="Введите полный адрес доставки"
+                    rows={3}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="comment">Комментарий к заказу</Label>
+                  <Textarea
+                    id="comment"
+                    value={contactInfo.comment}
+                    onChange={(e) => handleContactChange('comment', e.target.value)}
+                    placeholder="Дополнительные пожелания или комментарии"
+                    rows={3}
+                  />
+                </div>
+                
+                <p className="text-sm text-muted-foreground">
+                  * Обязательные поля для заполнения
+                </p>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Order Summary */}
@@ -260,7 +394,7 @@ const Cart = () => {
                   <span>{totalPrice.toLocaleString('ru-RU')} ₽</span>
                 </div>
                 
-                <Button className="w-full mb-3">
+                <Button className="w-full mb-3" onClick={handleSubmitOrder}>
                   Оформить заказ
                 </Button>
                 
