@@ -1,18 +1,15 @@
-
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, ShoppingCart } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 import type { Product } from "@/pages/Index";
 
 const Wishlist = () => {
   const { wishlist, toggleWishlist } = useWishlist();
-  const { toast } = useToast();
-  const [cartItems, setCartItems] = useState<number[]>([]);
+  const { addToCart, totalItems } = useCart();
 
   // All products data for wishlist display
   const allProducts: Product[] = [
@@ -98,17 +95,9 @@ const Wishlist = () => {
 
   const wishlistProducts = allProducts.filter(product => wishlist.includes(product.id));
 
-  const addToCart = (productId: number) => {
-    setCartItems(prev => [...prev, productId]);
-    toast({
-      title: "Товар добавлен в корзину",
-      description: "Перейдите в корзину для оформления заказа",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-warm-gradient">
-      <Header cartItemsCount={cartItems.length} products={allProducts} />
+      <Header cartItemsCount={totalItems} products={allProducts} />
       
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
@@ -165,7 +154,7 @@ const Wishlist = () => {
                         </span>
                       )}
                     </div>
-                    <Button size="sm" onClick={() => addToCart(product.id)}>
+                    <Button size="sm" onClick={() => addToCart(product)}>
                       <ShoppingCart className="h-4 w-4 mr-1" />
                       В корзину
                     </Button>
