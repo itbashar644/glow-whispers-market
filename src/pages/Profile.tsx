@@ -293,7 +293,7 @@ const Profile = () => {
                       <div>
                         <CardTitle className="text-lg">Заказ {order.id}</CardTitle>
                         <p className="text-sm text-muted-foreground">
-                          {new Date(order.date).toLocaleDateString('ru-RU')}
+                          {new Date(order.created_at).toLocaleDateString('ru-RU')}
                         </p>
                       </div>
                       <Badge className={getStatusColor(order.status)}>
@@ -351,7 +351,7 @@ const Profile = () => {
                         className="absolute top-2 right-2 bg-white/90 hover:bg-white"
                         onClick={() => toggleWishlist(product.id)}
                       >
-                        <Heart className="h-4 w-4 fill-red-500 text-red-500" />
+                        <Heart className="h-4 w-4 text-primary fill-primary" />
                       </Button>
                     </div>
                     <CardContent className="p-4">

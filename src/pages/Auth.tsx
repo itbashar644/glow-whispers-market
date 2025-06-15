@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -42,7 +41,10 @@ const Auth = () => {
 
   const handleSignIn = async (values: z.infer<typeof signInSchema>) => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(values);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: values.email,
+      password: values.password,
+    });
     if (error) {
       toast({ title: 'Ошибка входа', description: error.message, variant: 'destructive' });
     } else {
