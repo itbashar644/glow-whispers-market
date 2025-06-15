@@ -17,15 +17,6 @@ export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
   return (
     <section className="py-20 px-4">
       <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-playfair font-bold text-primary mb-4">
-            Наша коллекция
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Выберите идеальную свечу из нашей тщательно подобранной коллекции ароматических свечей
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (
             <Card 
