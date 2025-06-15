@@ -18,12 +18,11 @@ export const Header = ({ cartItemsCount }: HeaderProps) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-candle-gradient rounded-full flex items-center justify-center">
-              <div className="w-3 h-4 bg-candle-flame rounded-full candle-flame"></div>
-            </div>
-            <h1 className="text-2xl font-playfair font-bold text-primary">
-              Prototype-X.Shop
-            </h1>
+            <img 
+              src="/lovable-uploads/a48c1ffb-1043-45c5-8b02-d51cec2d23f2.png" 
+              alt="Prototype Candle" 
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
