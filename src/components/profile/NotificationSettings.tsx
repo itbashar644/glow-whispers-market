@@ -1,8 +1,38 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export const NotificationSettings = () => {
+  const { toast } = useToast();
+  const [settings, setSettings] = useState({
+    emailNotifications: true,
+    smsNotifications: false,
+    promotionalEmails: true
+  });
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleToggle = async (setting: keyof typeof settings) => {
+    setIsSaving(true);
+    
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    setSettings(prev => ({
+      ...prev,
+      [setting]: !prev[setting]
+    }));
+    
+    setIsSaving(false);
+    
+    toast({
+      title: "Настройки обновлены",
+      description: "Ваши настройки уведомлений успешно сохранены"
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -16,9 +46,11 @@ export const NotificationSettings = () => {
               Получать уведомления о статусе заказов
             </p>
           </div>
-          <Button variant="outline" size="sm">
-            Включено
-          </Button>
+          <Switch
+            checked={settings.emailNotifications}
+            onCheckedChange={() => handleToggle('emailNotifications')}
+            disabled={isSaving}
+          />
         </div>
         
         <div className="flex items-center justify-between">
@@ -28,9 +60,11 @@ export const NotificationSettings = () => {
               Получать SMS о доставке заказов
             </p>
           </div>
-          <Button variant="outline" size="sm">
-            Отключено
-          </Button>
+          <Switch
+            checked={settings.smsNotifications}
+            onCheckedChange={() => handleToggle('smsNotifications')}
+            disabled={isSaving}
+          />
         </div>
         
         <div className="flex items-center justify-between">
@@ -40,9 +74,11 @@ export const NotificationSettings = () => {
               Получать информацию о скидках и новинках
             </p>
           </div>
-          <Button variant="outline" size="sm">
-            Включено
-          </Button>
+          <Switch
+            checked={settings.promotionalEmails}
+            onCheckedChange={() => handleToggle('promotionalEmails')}
+            disabled={isSaving}
+          />
         </div>
       </CardContent>
     </Card>

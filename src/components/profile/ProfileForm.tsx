@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 interface UserInfo {
   name: string;
@@ -26,23 +27,55 @@ export const ProfileForm = ({ userInfo, setUserInfo, handleSaveProfile, isSaving
         <div className="grid grid-cols-1 gap-4">
           <div className="space-y-2">
             <Label htmlFor="name">Имя</Label>
-            <Input id="name" value={userInfo.name} onChange={(e) => setUserInfo(prev => ({ ...prev, name: e.target.value }))} />
+            <Input 
+              id="name" 
+              value={userInfo.name} 
+              onChange={(e) => setUserInfo(prev => ({ ...prev, name: e.target.value }))} 
+              disabled={isSaving}
+            />
           </div>
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" value={userInfo.email} disabled />
+          <Input 
+            id="email" 
+            type="email" 
+            value={userInfo.email} 
+            disabled 
+            className="bg-muted"
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="phone">Телефон</Label>
-          <Input id="phone" value={userInfo.phone} onChange={(e) => setUserInfo(prev => ({ ...prev, phone: e.target.value }))} />
+          <Input 
+            id="phone" 
+            value={userInfo.phone} 
+            onChange={(e) => setUserInfo(prev => ({ ...prev, phone: e.target.value }))} 
+            disabled={isSaving}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="address">Адрес</Label>
-          <Input id="address" value={userInfo.address} onChange={(e) => setUserInfo(prev => ({ ...prev, address: e.target.value }))} />
+          <Input 
+            id="address" 
+            value={userInfo.address} 
+            onChange={(e) => setUserInfo(prev => ({ ...prev, address: e.target.value }))} 
+            disabled={isSaving}
+          />
         </div>
-        <Button onClick={handleSaveProfile} disabled={isSaving} className="w-full md:w-auto">
-          {isSaving ? 'Сохранение...' : 'Сохранить изменения'}
+        <Button 
+          onClick={handleSaveProfile} 
+          disabled={isSaving} 
+          className="w-full md:w-auto"
+        >
+          {isSaving ? (
+            <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Сохранение...
+            </>
+          ) : (
+            'Сохранить изменения'
+          )}
         </Button>
       </CardContent>
     </Card>
