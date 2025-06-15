@@ -198,19 +198,13 @@ const Profile = () => {
       <Header cartItemsCount={totalItems} products={allProducts} />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-playfair font-bold text-primary mb-2">
-              Личный кабинет
-            </h1>
-            <p className="text-muted-foreground">
-              Добро пожаловать, {userInfo.name || 'Гость'}!
-            </p>
-          </div>
-          <Button variant="outline" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Выйти
-          </Button>
+        <div className="mb-8">
+          <h1 className="text-4xl font-playfair font-bold text-primary mb-2 text-center md:text-left">
+            Личный кабинет
+          </h1>
+          <p className="text-muted-foreground text-center md:text-left">
+            Добро пожаловать, {userInfo.name || 'Гость'}!
+          </p>
         </div>
 
         <Tabs defaultValue="profile" className="space-y-6">
@@ -237,6 +231,13 @@ const Profile = () => {
             <NotificationSettings />
           </TabsContent>
         </Tabs>
+
+        <div className="mt-8 flex justify-center">
+          <Button variant="outline" onClick={handleSignOut}>
+            <LogOut className="h-4 w-4 mr-2" />
+            Выйти
+          </Button>
+        </div>
       </div>
 
       <Footer />
