@@ -19,6 +19,7 @@ import Shipping from "./pages/Shipping";
 import CandleCare from "./pages/CandleCare";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import UpdatePassword from "./pages/UpdatePassword";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/shipping" element={<Shipping />} />
                 <Route path="/candle-care" element={<CandleCare />} />
+                <Route path="/update-password" element={<UpdatePassword />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

@@ -14,6 +14,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useCart } from '@/contexts/CartContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Неверный формат email' }),
@@ -31,6 +39,8 @@ const Auth = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { totalItems } = useCart();
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
 
   const signInForm = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -78,6 +88,23 @@ const Auth = () => {
     setLoading(false);
   };
 
+  const handlePasswordResetRequest = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetEmail) return;
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
+    setLoading(false);
+    setIsResetDialogOpen(false);
+    if (error) {
+      toast({ title: 'Ошибка', description: error.message, variant: 'destructive' });
+    } else {
+      toast({ title: 'Проверьте почту', description: 'Мы отправили ссылку для сброса пароля на ваш email.' });
+    }
+    setResetEmail('');
+  };
+
   return (
     <div className="min-h-screen bg-warm-gradient flex flex-col">
       <Header cartItemsCount={totalItems} />
@@ -110,6 +137,16 @@ const Auth = () => {
                         <FormMessage />
                       </FormItem>
                     )} />
+                    <div className="flex justify-end -mt-2">
+                        <Button
+                          variant="link"
+                          type="button"
+                          onClick={() => setIsResetDialogOpen(true)}
+                          className="px-0 h-auto py-1 text-sm font-normal"
+                        >
+                          Забыли пароль?
+                        </Button>
+                    </div>
                     <Button type="submit" className="w-full" disabled={loading}>
                       {loading ? 'Вход...' : 'Войти'}
                     </Button>
@@ -150,6 +187,29 @@ const Auth = () => {
           </CardContent>
         </Card>
       </main>
+      <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Сброс пароля</DialogTitle>
+            <DialogDescription>
+              Введите ваш email, и мы отправим вам ссылку для сброса пароля.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handlePasswordResetRequest} className="space-y-4 pt-4">
+              <Input
+                id="reset-email"
+                type="email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+              />
+            <DialogFooter>
+              <Button type="submit" disabled={loading}>{loading ? 'Отправка...' : 'Отправить'}</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
       <Footer />
     </div>
   );
