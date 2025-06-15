@@ -2,23 +2,15 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { ProductGrid } from "@/components/ProductGrid";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { FilterSidebar } from "@/components/catalog/FilterSidebar";
+import { ProductsSection } from "@/components/catalog/ProductsSection";
 import { useToast } from "@/hooks/use-toast";
+import { useCatalogFilters } from "@/hooks/useCatalogFilters";
 import { Product } from "./Index";
 
 const Catalog = () => {
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<number[]>([]);
-  const [priceRange, setPriceRange] = useState([0, 5000]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState("default");
 
   const products: Product[] = [
     {
@@ -127,6 +119,17 @@ const Catalog = () => {
 
   const categories = ["Ароматические", "Цитрусовые", "Древесные", "Свежие", "Цветочные", "Пряные", "Сладкие"];
 
+  const {
+    priceRange,
+    setPriceRange,
+    selectedCategories,
+    sortBy,
+    setSortBy,
+    handleCategoryChange,
+    resetFilters,
+    sortedProducts
+  } = useCatalogFilters(products);
+
   const addToCart = (productId: number) => {
     setCartItems(prev => [...prev, productId]);
     toast({
@@ -134,37 +137,6 @@ const Catalog = () => {
       description: "Перейдите в корзину для оформления заказа",
     });
   };
-
-  const handleCategoryChange = (category: string, checked: boolean) => {
-    if (checked) {
-      setSelectedCategories(prev => [...prev, category]);
-    } else {
-      setSelectedCategories(prev => prev.filter(c => c !== category));
-    }
-  };
-
-  // Filter products based on selected filters
-  const filteredProducts = products.filter(product => {
-    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-    const priceMatch = product.price >= priceRange[0] && product.price <= priceRange[1];
-    return categoryMatch && priceMatch;
-  });
-
-  // Sort products
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case "price-asc":
-        return a.price - b.price;
-      case "price-desc":
-        return b.price - a.price;
-      case "rating":
-        return b.rating - a.rating;
-      case "name":
-        return a.name.localeCompare(b.name);
-      default:
-        return 0;
-    }
-  });
 
   return (
     <div className="min-h-screen bg-warm-gradient">
@@ -187,108 +159,24 @@ const Catalog = () => {
           
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-6">Фильтры</h3>
-                
-                {/* Price Range */}
-                <div className="mb-6">
-                  <Label className="text-sm font-medium mb-3 block">
-                    Цена: {priceRange[0]} - {priceRange[1]} ₽
-                  </Label>
-                  <Slider
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    max={5000}
-                    min={0}
-                    step={100}
-                    className="mb-4"
-                  />
-                </div>
-
-                {/* Categories */}
-                <div className="mb-6">
-                  <Label className="text-sm font-medium mb-3 block">Категории</Label>
-                  <div className="space-y-3">
-                    {categories.map((category) => (
-                      <div key={category} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={category}
-                          checked={selectedCategories.includes(category)}
-                          onCheckedChange={(checked) => 
-                            handleCategoryChange(category, checked as boolean)
-                          }
-                        />
-                        <Label htmlFor={category} className="text-sm">
-                          {category}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => {
-                    setSelectedCategories([]);
-                    setPriceRange([0, 5000]);
-                  }}
-                >
-                  Сбросить фильтры
-                </Button>
-              </CardContent>
-            </Card>
+            <FilterSidebar
+              priceRange={priceRange}
+              onPriceRangeChange={setPriceRange}
+              selectedCategories={selectedCategories}
+              onCategoryChange={handleCategoryChange}
+              onResetFilters={resetFilters}
+              categories={categories}
+            />
           </div>
 
-          {/* Products Grid */}
-          <div className="lg:col-span-3">
-            {/* Sort and Results */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">
-                  Найдено товаров: 
-                </span>
-                <Badge variant="secondary">{sortedProducts.length}</Badge>
-              </div>
-              
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-full sm:w-48">
-                  <SelectValue placeholder="Сортировать по" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="default">По умолчанию</SelectItem>
-                  <SelectItem value="price-asc">Цена: по возрастанию</SelectItem>
-                  <SelectItem value="price-desc">Цена: по убыванию</SelectItem>
-                  <SelectItem value="rating">По рейтингу</SelectItem>
-                  <SelectItem value="name">По названию</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Products */}
-            {sortedProducts.length > 0 ? (
-              <ProductGrid 
-                products={sortedProducts}
-                onAddToCart={addToCart}
-              />
-            ) : (
-              <div className="text-center py-16">
-                <p className="text-xl text-muted-foreground mb-4">
-                  По выбранным фильтрам товары не найдены
-                </p>
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    setSelectedCategories([]);
-                    setPriceRange([0, 5000]);
-                  }}
-                >
-                  Сбросить фильтры
-                </Button>
-              </div>
-            )}
-          </div>
+          {/* Products Section */}
+          <ProductsSection
+            products={sortedProducts}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            onAddToCart={addToCart}
+            onResetFilters={resetFilters}
+          />
         </div>
       </div>
 
