@@ -9,11 +9,13 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 interface HeaderProps {
   cartItemsCount: number;
@@ -99,16 +101,19 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
 
               {/* Mobile menu button */}
               <div className="md:hidden">
-                <Sheet>
-                  <SheetTrigger asChild>
+                <Drawer>
+                  <DrawerTrigger asChild>
                     <Button variant="outline" size="icon" className="rounded-full">
                       <Menu className="h-6 w-6" />
                     </Button>
-                  </SheetTrigger>
-                  <SheetContent side="left">
-                    <nav className="p-4 pt-8">
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>Меню</DrawerTitle>
+                    </DrawerHeader>
+                    <nav className="p-4 pb-8">
                       <div className="flex flex-col space-y-2">
-                        <SheetClose asChild>
+                        <DrawerClose asChild>
                             <Button 
                                 variant="outline" 
                                 className="w-full justify-start text-lg p-3 h-auto font-normal"
@@ -117,29 +122,29 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                                 <Search className="h-5 w-5 mr-3" />
                                 Поиск
                             </Button>
-                        </SheetClose>
+                        </DrawerClose>
 
                         <div className="border-t my-2"></div>
                         
-                        <SheetClose asChild>
+                        <DrawerClose asChild>
                           <Link to="/catalog" className="block text-lg p-3 rounded-md hover:bg-muted">Каталог</Link>
-                        </SheetClose>
-                        <SheetClose asChild>
+                        </DrawerClose>
+                        <DrawerClose asChild>
                           <Link to="/candle-care" className="block text-lg p-3 rounded-md hover:bg-muted">Уход за свечами</Link>
-                        </SheetClose>
-                        <SheetClose asChild>
+                        </DrawerClose>
+                        <DrawerClose asChild>
                           <Link to="/about" className="block text-lg p-3 rounded-md hover:bg-muted">О нас</Link>
-                        </SheetClose>
-                        <SheetClose asChild>
+                        </DrawerClose>
+                        <DrawerClose asChild>
                           <Link to="/shipping" className="block text-lg p-3 rounded-md hover:bg-muted">Доставка</Link>
-                        </SheetClose>
-                        <SheetClose asChild>
+                        </DrawerClose>
+                        <DrawerClose asChild>
                           <Link to="/contact" className="block text-lg p-3 rounded-md hover:bg-muted">Контакты</Link>
-                        </SheetClose>
+                        </DrawerClose>
                       </div>
                     </nav>
-                  </SheetContent>
-                </Sheet>
+                  </DrawerContent>
+                </Drawer>
               </div>
             </div>
           </div>
