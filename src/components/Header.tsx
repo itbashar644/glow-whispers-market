@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ShoppingCart, Heart, Search, Menu, X } from "lucide-react";
+import { ShoppingCart, Heart, Search, Menu, X, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
@@ -73,6 +73,12 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                 )}
               </Button>
 
+              <Link to="/profile">
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+
               {/* Mobile menu button */}
               <Button 
                 variant="ghost" 
@@ -116,6 +122,13 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Контакты
+                </Link>
+                <Link 
+                  to="/profile" 
+                  className="text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Личный кабинет
                 </Link>
                 <div className="pt-4 border-t border-warm-200">
                   <Button 
