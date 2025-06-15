@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ShoppingCart, Heart, Search, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,9 +39,6 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/catalog" className="text-foreground hover:text-primary transition-colors">
-                Каталог
-              </Link>
               <Link to="/collections" className="text-foreground hover:text-primary transition-colors">
                 Коллекции
               </Link>
@@ -111,10 +107,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                     <nav className="p-4 pt-8">
                       <div className="flex flex-col space-y-2">
                         <DrawerClose asChild>
-                          <Link to="/catalog" className="text-lg p-3 rounded-md hover:bg-muted font-medium">Каталог</Link>
-                        </DrawerClose>
-                        <DrawerClose asChild>
-                          <Link to="/collections" className="text-lg p-3 rounded-md hover:bg-muted">Коллекции</Link>
+                          <Link to="/collections" className="text-lg p-3 rounded-md hover:bg-muted font-medium">Коллекции</Link>
                         </DrawerClose>
                         <DrawerClose asChild>
                           <Link to="/about" className="text-lg p-3 rounded-md hover:bg-muted">О нас</Link>
