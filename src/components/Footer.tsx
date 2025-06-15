@@ -31,12 +31,12 @@ export const Footer = () => {
             <Link to="/contact" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
               Контакты
             </Link>
-            <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-              Политика
-            </a>
-            <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-              Условия
-            </a>
+            <Link to="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
+              Политика конфиденциальности
+            </Link>
+            <Link to="/terms" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
+              Условия пользования
+            </Link>
           </nav>
         </div>
       </div>
