@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { useCart } from '@/contexts/CartContext';
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Неверный формат email' }),
@@ -28,6 +30,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const { totalItems } = useCart();
 
   const signInForm = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -77,7 +80,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-warm-gradient flex flex-col">
-      <Header cartItemsCount={0} />
+      <Header cartItemsCount={totalItems} />
       <main className="flex-grow flex items-center justify-center container mx-auto px-4 py-8">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">

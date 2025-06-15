@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -15,12 +16,18 @@ import { ProfileForm } from "@/components/profile/ProfileForm";
 import { OrderHistory } from "@/components/profile/OrderHistory";
 import { NotificationSettings } from "@/components/profile/NotificationSettings";
 
+type OrderItem = {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 type Order = {
   id: string;
   created_at: string;
   status: string;
   total: number;
-  items: { name: string; price: number; quantity: number }[];
+  items: OrderItem[];
   order_number: number;
 };
 
@@ -179,7 +186,7 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-warm-gradient">
-        <Header cartItemsCount={0} products={[]} />
+        <Header cartItemsCount={totalItems} products={[]} />
         <ProfileSkeleton />
         <Footer />
       </div>
