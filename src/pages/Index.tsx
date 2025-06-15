@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ShoppingCart, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -136,7 +135,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-warm-gradient">
-      <Header cartItemsCount={cartItems.length} />
+      <Header cartItemsCount={cartItems.length} products={products} />
       <Hero />
       <ProductGrid 
         products={products}
