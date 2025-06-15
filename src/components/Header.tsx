@@ -55,7 +55,7 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center md:space-x-2 space-x-1">
+            <div className="flex items-center md:space-x-3 space-x-2">
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -71,9 +71,9 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   {wishlist.length > 0 && (
                     <Badge 
                       variant="cinnamon" 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                      className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-xs min-w-4 rounded-full"
                     >
-                      {wishlist.length}
+                      {wishlist.length > 9 ? '9+' : wishlist.length}
                     </Badge>
                   )}
                 </Button>
@@ -85,9 +85,9 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   {cartItemsCount > 0 && (
                     <Badge 
                       variant="cinnamon" 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                      className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-xs min-w-4 rounded-full"
                     >
-                      {cartItemsCount}
+                      {cartItemsCount > 9 ? '9+' : cartItemsCount}
                     </Badge>
                   )}
                 </Button>
