@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -58,7 +57,7 @@ const UpdatePassword = () => {
   return (
     <div className="min-h-screen bg-warm-gradient flex flex-col">
       <Header cartItemsCount={totalItems} />
-      <main className="flex-grow flex items-center justify-center container mx-auto px-4 py-8">
+      <main className="flex-grow flex items-center justify-center container mx-auto px-4 py-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Обновление пароля</CardTitle>

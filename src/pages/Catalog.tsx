@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FilterSidebar } from "@/components/catalog/FilterSidebar";
@@ -118,7 +119,7 @@ const Catalog = () => {
       <Header cartItemsCount={totalItems} products={products} />
       
       {/* Hero Section */}
-      <section className="py-20 px-4">
+      <section className="py-12 px-4">
         <div className="container mx-auto text-center">
           <h1 className="text-5xl font-playfair font-bold text-primary mb-6">
             Каталог свечей

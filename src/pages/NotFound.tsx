@@ -17,7 +17,7 @@ const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-warm-gradient px-4">
       <div className="text-center max-w-md mx-auto">
-        <div className="mb-8">
+        <div className="mb-6">
           <div className="w-24 h-24 bg-candle-gradient rounded-full flex items-center justify-center mx-auto mb-4">
             <div className="w-8 h-12 bg-candle-flame rounded-full candle-flame"></div>
           </div>
@@ -25,7 +25,7 @@ const NotFound = () => {
           <h2 className="text-2xl font-playfair font-semibold text-primary mb-4">
             Страница не найдена
           </h2>
-          <p className="text-muted-foreground mb-8 leading-relaxed">
+          <p className="text-muted-foreground mb-6 leading-relaxed">
             К сожалению, запрашиваемая страница не существует. 
             Возможно, она была перемещена или удалена.
           </p>
