@@ -34,12 +34,9 @@ export const Hero = () => {
             неповторимой атмосферы уюта и тепла.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex justify-center">
             <Button asChild size="lg" className="px-8 py-6 text-lg font-medium bg-primary hover:bg-primary/90">
               <Link to="/catalog">Смотреть каталог</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="px-8 py-6 text-lg">
-              <Link to="/about">Узнать больше</Link>
             </Button>
           </div>
           
