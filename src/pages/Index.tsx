@@ -1,8 +1,4 @@
 import { useState } from "react";
-import { ShoppingCart, Heart, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
@@ -28,7 +24,6 @@ export interface Product {
 const Index = () => {
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<number[]>([]);
-  const [wishlist, setWishlist] = useState<number[]>([]);
 
   const products: Product[] = [
     {
@@ -119,20 +114,6 @@ const Index = () => {
     });
   };
 
-  const toggleWishlist = (productId: number) => {
-    setWishlist(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-    
-    const isAdding = !wishlist.includes(productId);
-    toast({
-      title: isAdding ? "Добавлено в избранное" : "Удалено из избранного",
-      description: isAdding ? "Товар сохранен в вашем списке желаний" : "Товар удален из списка желаний",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-warm-gradient">
       <Header cartItemsCount={cartItems.length} products={products} />
@@ -140,8 +121,6 @@ const Index = () => {
       <ProductGrid 
         products={products}
         onAddToCart={addToCart}
-        onToggleWishlist={toggleWishlist}
-        wishlist={wishlist}
       />
       <Footer />
     </div>

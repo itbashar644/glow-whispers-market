@@ -3,16 +3,17 @@ import { ShoppingCart, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useWishlist } from "@/contexts/WishlistContext";
 import type { Product } from "@/pages/Index";
 
 interface ProductGridProps {
   products: Product[];
   onAddToCart: (productId: number) => void;
-  onToggleWishlist: (productId: number) => void;
-  wishlist: number[];
 }
 
-export const ProductGrid = ({ products, onAddToCart, onToggleWishlist, wishlist }: ProductGridProps) => {
+export const ProductGrid = ({ products, onAddToCart }: ProductGridProps) => {
+  const { wishlist, toggleWishlist } = useWishlist();
+
   return (
     <section className="py-20 px-4">
       <div className="container mx-auto">
@@ -54,7 +55,7 @@ export const ProductGrid = ({ products, onAddToCart, onToggleWishlist, wishlist 
                     variant="ghost"
                     size="icon"
                     className="absolute top-3 right-3 bg-white/90 hover:bg-white transition-colors"
-                    onClick={() => onToggleWishlist(product.id)}
+                    onClick={() => toggleWishlist(product.id)}
                   >
                     <Heart 
                       className={`h-4 w-4 ${
