@@ -7,7 +7,7 @@ interface CartHeaderProps {
 
 export const CartHeader: React.FC<CartHeaderProps> = ({ totalItems }) => {
   return (
-    <div className="mb-8">
+    <div className="mb-6">
       <h1 className="text-4xl font-playfair font-bold text-primary mb-2">
         Корзина
       </h1>

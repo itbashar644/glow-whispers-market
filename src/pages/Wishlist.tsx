@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -96,11 +97,11 @@ const Wishlist = () => {
   const wishlistProducts = allProducts.filter(product => wishlist.includes(product.id));
 
   return (
-    <div className="min-h-screen bg-warm-gradient">
+    <div className="min-h-screen bg-warm-gradient flex flex-col">
       <Header cartItemsCount={totalItems} products={allProducts} />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
+      <div className="flex-grow container mx-auto px-4 py-8">
+        <div className="mb-6">
           <h1 className="text-4xl font-playfair font-bold text-primary mb-2">
             Избранное
           </h1>

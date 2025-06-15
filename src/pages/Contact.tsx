@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-warm-gradient">
+    <div className="min-h-screen bg-warm-gradient flex flex-col">
       <Header cartItemsCount={0} />
       
       {/* Hero Section */}
@@ -25,7 +25,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-8 px-4">
+      <section className="flex-grow py-8 px-4">
         <div className="container mx-auto max-w-2xl">
           <Card>
             <CardHeader>

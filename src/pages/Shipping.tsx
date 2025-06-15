@@ -5,10 +5,10 @@ import { Truck, Shield, Clock } from "lucide-react";
 
 const Shipping = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header cartItemsCount={0} />
       
-      <main className="container mx-auto px-4 py-12">
+      <main className="flex-grow container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-playfair font-bold text-primary mb-8 text-center">
             Доставка

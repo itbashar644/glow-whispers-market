@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,6 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Session } from '@supabase/supabase-js';
 
 const updatePasswordSchema = z.object({
   password: z.string().min(6, { message: 'Пароль должен быть не менее 6 символов' }),
@@ -23,7 +23,9 @@ const UpdatePassword = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { totalItems } = useCart();
-  const [session, setSession] = useState<Session | null>(null);
+  const [searchParams] = useSearchParams();
+  const [canUpdatePassword, setCanUpdatePassword] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   const form = useForm<z.infer<typeof updatePasswordSchema>>({
     resolver: zodResolver(updatePasswordSchema),
@@ -31,27 +33,93 @@ const UpdatePassword = () => {
   });
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        setSession(session);
+    const checkSession = async () => {
+      console.log("Checking session and recovery state...");
+      
+      // Проверяем URL параметры
+      const accessToken = searchParams.get('access_token');
+      const refreshToken = searchParams.get('refresh_token');
+      const type = searchParams.get('type');
+      
+      console.log("URL params:", { accessToken: !!accessToken, refreshToken: !!refreshToken, type });
+      
+      if (type === 'recovery' && accessToken && refreshToken) {
+        console.log("Recovery URL detected, setting session...");
+        try {
+          const { error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+          
+          if (error) {
+            console.error("Error setting session:", error);
+            toast({ 
+              title: 'Ошибка', 
+              description: 'Ссылка недействительна или истекла', 
+              variant: 'destructive' 
+            });
+            navigate('/auth');
+            return;
+          }
+          
+          console.log("Session set successfully");
+          setCanUpdatePassword(true);
+        } catch (error) {
+          console.error("Exception setting session:", error);
+          toast({ 
+            title: 'Ошибка', 
+            description: 'Ссылка недействительна или истекла', 
+            variant: 'destructive' 
+          });
+          navigate('/auth');
+        }
+      } else {
+        // Проверяем текущую сессию
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("Current session:", !!session);
+        
+        if (session) {
+          setCanUpdatePassword(true);
+        } else {
+          toast({ 
+            title: 'Ошибка', 
+            description: 'Сессия не найдена. Запросите новую ссылку для сброса пароля.', 
+            variant: 'destructive' 
+          });
+          navigate('/auth');
+        }
       }
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+      
+      setIsCheckingSession(false);
+    };
+
+    checkSession();
+  }, [searchParams, navigate, toast]);
 
   const handleUpdatePassword = async (values: z.infer<typeof updatePasswordSchema>) => {
     setLoading(true);
-    const { error } = await supabase.auth.updateUser({
-      password: values.password,
-    });
-    setLoading(false);
-    if (error) {
-      toast({ title: 'Ошибка', description: error.message, variant: 'destructive' });
-    } else {
-      toast({ title: 'Пароль успешно обновлен!', description: 'Теперь вы можете войти с новым паролем.' });
-      await supabase.auth.signOut();
-      navigate('/auth');
+    console.log("Updating password...");
+    
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: values.password,
+      });
+      
+      if (error) {
+        console.error("Error updating password:", error);
+        toast({ title: 'Ошибка', description: error.message, variant: 'destructive' });
+      } else {
+        console.log("Password updated successfully");
+        toast({ title: 'Пароль успешно обновлен!', description: 'Теперь вы можете войти с новым паролем.' });
+        await supabase.auth.signOut();
+        navigate('/auth');
+      }
+    } catch (error) {
+      console.error("Exception updating password:", error);
+      toast({ title: 'Ошибка', description: 'Произошла ошибка при обновлении пароля', variant: 'destructive' });
     }
+    
+    setLoading(false);
   };
 
   return (
@@ -64,7 +132,9 @@ const UpdatePassword = () => {
             <CardDescription>Введите ваш новый пароль.</CardDescription>
           </CardHeader>
           <CardContent>
-            {session ? (
+            {isCheckingSession ? (
+              <p className="text-center text-muted-foreground">Проверяем ссылку для сброса пароля...</p>
+            ) : canUpdatePassword ? (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleUpdatePassword)} className="space-y-4">
                   <FormField
@@ -86,7 +156,14 @@ const UpdatePassword = () => {
                 </form>
               </Form>
             ) : (
-              <p className="text-center text-muted-foreground">Пожалуйста, подождите. Проверяем вашу ссылку для сброса пароля...</p>
+              <div className="text-center">
+                <p className="text-muted-foreground mb-4">
+                  Ссылка недействительна или истекла.
+                </p>
+                <Button onClick={() => navigate('/auth')}>
+                  Вернуться к авторизации
+                </Button>
+              </div>
             )}
           </CardContent>
         </Card>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -94,10 +95,10 @@ const Cart = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-warm-gradient">
+      <div className="min-h-screen bg-warm-gradient flex flex-col">
         <Header cartItemsCount={0} />
         
-        <div className="container mx-auto px-4 py-20">
+        <div className="flex-grow container mx-auto px-4 py-8">
           <EmptyCart />
         </div>
 
@@ -107,10 +108,10 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-screen bg-warm-gradient">
+    <div className="min-h-screen bg-warm-gradient flex flex-col">
       <Header cartItemsCount={totalItems} />
       
-      <div className="container mx-auto px-4 py-20">
+      <div className="flex-grow container mx-auto px-4 py-8">
         <CartHeader totalItems={totalItems} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
