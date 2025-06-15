@@ -57,9 +57,11 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                 <Search className="h-5 w-5" />
               </Button>
               
-              <Button variant="ghost" size="icon">
-                <Heart className="h-5 w-5" />
-              </Button>
+              <Link to="/wishlist">
+                <Button variant="ghost" size="icon">
+                  <Heart className="h-5 w-5" />
+                </Button>
+              </Link>
               
               <Link to="/cart">
                 <Button variant="ghost" size="icon" className="relative">
@@ -124,6 +126,13 @@ export const Header = ({ cartItemsCount, products = [] }: HeaderProps) => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Контакты
+                </Link>
+                <Link 
+                  to="/wishlist" 
+                  className="text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Избранное
                 </Link>
                 <Link 
                   to="/profile" 

@@ -13,6 +13,7 @@ import Collections from "./pages/Collections";
 import Catalog from "./pages/Catalog";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
 import Shipping from "./pages/Shipping";
 import CandleCare from "./pages/CandleCare";
 import NotFound from "./pages/NotFound";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/candle-care" element={<CandleCare />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
