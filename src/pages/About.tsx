@@ -1,3 +1,4 @@
+
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ const About = () => {
             О нас
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Prototype-X.Shop — это история о страсти к созданию уникальных свечей, 
+            Prototype Shop — это история о страсти к созданию уникальных свечей, 
             которые превращают обычные моменты в особенные воспоминания.
           </p>
         </div>
