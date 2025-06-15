@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -15,7 +14,6 @@ import { ProfileSkeleton } from "@/components/profile/ProfileSkeleton";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { OrderHistory } from "@/components/profile/OrderHistory";
 import { NotificationSettings } from "@/components/profile/NotificationSettings";
-import { Product } from "@/pages/Index";
 
 type Order = {
   id: string;
@@ -62,7 +60,7 @@ const Profile = () => {
         .order('created_at', { ascending: false })
         .then(({ data }) => {
           if (data) {
-            setOrders(data as Order[]);
+            setOrders(data as unknown as Order[]);
           }
         });
     }
