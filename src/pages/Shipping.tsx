@@ -1,0 +1,113 @@
+
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Truck, RotateCcw, Shield, Clock } from "lucide-react";
+
+const Shipping = () => {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header cartItemsCount={0} />
+      
+      <main className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-playfair font-bold text-primary mb-8 text-center">
+            Доставка и возврат
+          </h1>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Доставка */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border">
+              <div className="flex items-center mb-4">
+                <Truck className="h-6 w-6 text-primary mr-3" />
+                <h2 className="text-xl font-semibold">Условия доставки</h2>
+              </div>
+              
+              <div className="space-y-4 text-muted-foreground">
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">Бесплатная доставка</h3>
+                  <p>При заказе от 3000 ₽ доставка бесплатная по всей России</p>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">Стандартная доставка</h3>
+                  <p>350 ₽ - доставка курьером по Москве и МО (1-2 дня)</p>
+                  <p>450 ₽ - доставка по России почтой (3-7 дней)</p>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">Экспресс доставка</h3>
+                  <p>750 ₽ - доставка в день заказа по Москве</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Возврат */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border">
+              <div className="flex items-center mb-4">
+                <RotateCcw className="h-6 w-6 text-primary mr-3" />
+                <h2 className="text-xl font-semibold">Условия возврата</h2>
+              </div>
+              
+              <div className="space-y-4 text-muted-foreground">
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">30 дней на возврат</h3>
+                  <p>Вы можете вернуть товар в течение 30 дней с момента получения</p>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">Условия возврата</h3>
+                  <p>Товар должен быть в оригинальной упаковке, неиспользованным</p>
+                  <p>Возврат денежных средств в течение 10 рабочих дней</p>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium text-foreground mb-2">Обмен товара</h3>
+                  <p>Бесплатный обмен в случае брака или пересорта</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Дополнительная информация */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-warm-50 rounded-lg p-6">
+              <div className="flex items-center mb-4">
+                <Shield className="h-6 w-6 text-primary mr-3" />
+                <h3 className="text-lg font-semibold">Гарантия качества</h3>
+              </div>
+              <p className="text-muted-foreground">
+                Мы гарантируем высокое качество наших свечей. Все изделия проходят 
+                контроль качества перед отправкой.
+              </p>
+            </div>
+
+            <div className="bg-warm-50 rounded-lg p-6">
+              <div className="flex items-center mb-4">
+                <Clock className="h-6 w-6 text-primary mr-3" />
+                <h3 className="text-lg font-semibold">Время обработки</h3>
+              </div>
+              <p className="text-muted-foreground">
+                Заказы обрабатываются в течение 1-2 рабочих дней. 
+                При заказе до 14:00 - отправка в тот же день.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-muted-foreground mb-4">
+              Остались вопросы? Свяжитесь с нами любым удобным способом
+            </p>
+            <div className="flex justify-center space-x-6 text-sm">
+              <span>📞 +7 (999) 123-45-67</span>
+              <span>📧 info@prototypecandle.ru</span>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default Shipping;

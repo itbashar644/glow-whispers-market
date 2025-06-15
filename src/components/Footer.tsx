@@ -1,6 +1,7 @@
 
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -25,21 +26,12 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Быстрые ссылки</h4>
             <nav className="flex flex-col space-y-2">
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              <Link to="/catalog" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Каталог
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                Новинки
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                Скидки
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              </Link>
+              <Link to="/about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 О нас
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                Отзывы
-              </a>
+              </Link>
             </nav>
           </div>
 
@@ -47,15 +39,15 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold">Поддержка</h4>
             <nav className="flex flex-col space-y-2">
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              <Link to="/shipping" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Доставка и возврат
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              </Link>
+              <Link to="/candle-care" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Уход за свечами
-              </a>
-              <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              </Link>
+              <Link to="/contact" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                 Контакты
-              </a>
+              </Link>
             </nav>
           </div>
         </div>
