@@ -1,10 +1,9 @@
-
-
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Award, Clock, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -42,7 +41,9 @@ const About = () => {
                 и эфирные масла высочайшего качества. Наша миссия — создавать продукты, 
                 которые делают ваш дом более уютным и наполняют его теплом.
               </p>
-              <Button size="lg">Связаться с нами</Button>
+              <Button asChild size="lg">
+                <Link to="/contact">Связаться с нами</Link>
+              </Button>
             </div>
             <div className="relative">
               <img 
@@ -111,4 +112,3 @@ const About = () => {
 };
 
 export default About;
-
